@@ -8,6 +8,10 @@ var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
 
+var game = require('./var');	// require from same directory (only works for server)
+
+//console.log('width %d height %d radius %d', game.WIDTH, game.HEIGHT, game.PLAYER_RADIUS);
+
 app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -41,14 +45,18 @@ io.on('connection', function(socket) {
 		var player = players[socket.id] || {};
 		
 		if (data.left) {
-			player.x -= 5;
+			if (player.x > (game.PLAYER_RADIUS / 2))
+				player.x -= 5;
 		} else if (data.right) {
-			player.x += 5;
+			if (player.x < (game.WIDTH - (game.PLAYER_RADIUS / 2)))
+				player.x += 5;
 		}
 		
 		if (data.up) {
-			player.y -= 5;
+			if (player.y > (game.PLAYER_RADIUS / 2))
+				player.y -= 5;
 		} else if (data.down) {
+			if (player.y < (game.HEIGHT - (game.PLAYER_RADIUS / 2)))
 			player.y += 5;
 		}
 	});
