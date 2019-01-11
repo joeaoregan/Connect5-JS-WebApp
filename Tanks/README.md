@@ -1,12 +1,10 @@
-# Multiplayer Browser Games
+# Multiplayer Browser Game
 
-Multiplayer browser games using JavaScript and Node.js
-
-## Tanks
+Multiplayer browser game using JavaScript and Node.js
 
 ![Multiplayer Browser Game](https://raw.githubusercontent.com/joeaoregan/HTML5-NodeJS-Tutorial-Game/master/Screenshots/screenshot1.png "Multiplayer Browser Game")
 
-### Instructions
+## Instructions
 1. [Install Node.js](https://nodejs.org/en/)
 2. Initialise NPM (from root directory type the following commands in command prompt)
 ```
@@ -19,12 +17,7 @@ node server.js
 ```
 4. navigate to [http://localhost:5000](http://localhost:5000)
 
-## Tic Tac Toe
-
-[JavaScript Tic Tac Toe Tutorial](https://www.youtube.com/watch?v=P2TcQ3h0ipQ)
-
-### Links
+## Links
 1. [HackerNoon: How to build a Multiplayer Browser Game (Part 1)](https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b)
-2. [JavaScript Tic Tac Toe Tutorial](https://www.youtube.com/watch?v=P2TcQ3h0ipQ)
 2. [NodeSchool](https://nodeschool.io/#workshoppers)
 3. [Node.js Download](https://nodejs.org/en/)
