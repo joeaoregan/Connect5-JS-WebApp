@@ -1,3 +1,7 @@
+/*
+	Joe O'Regan
+	11/01/2019
+*/
 
 td {
 	height: 90px;
@@ -5,7 +9,6 @@ td {
 	text-align: center;
 	vertical-align: middle;
 	font-family: "Comic Sans MS", cursive, sans-serif;
-	font-size: 70px;
 	cursor: pointer;
 	border-radius: 45px;
 }
@@ -16,6 +19,7 @@ table {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	top: 175px;
+	//width: 100%;
 }
 .column {
 	background-color: blue;
@@ -30,8 +34,9 @@ td {
 }
 
 .frame {
-	border: 2px solid #333;
+	border: 3px solid #333;
 	background-color: blue;
+	border-radius: 15px;
 }
 
 .col0, .col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8 {
@@ -43,21 +48,6 @@ tr {
 	padding: 10px;
 }
 
-
-/*
-table tr:first-child td {
-	border-top: 0;
-}
-table tr:last-child td {
-	border-bottom: 0;
-}
-table tr td:first-child {
-	border-left: 0;
-}
-table tr td:last-child {
-	border-right: 0;
-}
-*/
 .endgame {
 	display: none;
 	width: 200px;
