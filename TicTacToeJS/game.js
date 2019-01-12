@@ -35,7 +35,7 @@ function turnClick(square) {
 	if (typeof(origBoard[square.target.id] == 'number')) {
 		turn(square.target.id, huPlayer);
 		if (!checkTie()) {
-			turn(bestSport(), aiPlayer);		
+			turn(bestSpot(), aiPlayer);		
 		}
 	}	
 }
@@ -81,7 +81,7 @@ function emptySquares() {
 	return origBoard.filter(s => typeof s == 'number');
 }
 
-function bestSport() {
+function bestSpot() {
 	return emptySquares() [0];	// first empty squareID	
 }
 
