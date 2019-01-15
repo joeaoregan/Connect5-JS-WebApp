@@ -4,12 +4,12 @@
 # Ignore this
 
 /node_modules/
-package.json
-package-lock.json
 
 # Keep this
 
 !/static/*
 !.gitignore
 !README.md
+!package.json
+!package-lock.json
 
