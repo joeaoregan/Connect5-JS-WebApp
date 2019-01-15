@@ -3,6 +3,11 @@
 	11/01/2019
 */
 
+body {
+	text-align: center;
+}
+
+
 td {
 	height: 70px;
 	width: 80px;	
@@ -48,4 +53,9 @@ td {
 
 .button:active {
 	background-color: lime;
+}
+
+.game {
+  max-width: 720px;
+  margin: auto;
 }
