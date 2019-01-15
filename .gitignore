@@ -5,6 +5,12 @@
 
 /node_modules/
 
+# Ignore web
+
+LICENSE
+process.json
+web.config
+
 # Keep this
 
 !/static/*
