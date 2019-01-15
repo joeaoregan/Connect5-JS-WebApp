@@ -36,26 +36,16 @@ var server = http.Server(app, function(req, res) {
 
 var io = socketIO(server);
 
-
-//var server = http.createServer(function(request, response) {
-	//response.sendFile(path.join(__dirname, 'index.html'));
-
-//    response.writeHead(200, {"Content-Type": "text/plain"});
-//    response.end("Hello from Joe!");
-//});
-
-
 console.log("Server running at http://localhost:%d", port);
 
 app.set('port', port);
 app.use('/static', express.static(__dirname + '/static'));
 
-
 // Routing
 app.get('/', function(request, response) {
-  response.sendFile(path.join(__dirname, 'index.html'));
+	response.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/style.css', function(req, res) {
-  res.sendFile(__dirname + "/static" + "style.css");
+	res.sendFile(__dirname + "/static" + "style.css");
 });

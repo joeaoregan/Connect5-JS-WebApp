@@ -1,3 +1,9 @@
+/*
+	Joe O'Regan
+	game.js
+	Connect 5
+	5 in a row game with client side logic
+*/
 const CONNECT = 5;
 const ROWS = 6;
 const COLS = 9;

@@ -26,8 +26,20 @@ node server.js
 5. navigate to [http://localhost:5000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
 
-### Links
+### Links / References
+
+
+#### Turn-based game tutorials
+
+Some links I found helpful:
+
 1. [HackerNoon: How to build a Multiplayer Browser Game (Part 1)](https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b)
 2. [JavaScript Tic Tac Toe Tutorial](https://www.youtube.com/watch?v=P2TcQ3h0ipQ)
+3. [Simple Multiplayer Tic-Tac-Toe Game using Angular, Node.js, and socket.io rooms](http://www.codershood.info/2018/01/07/building-dead-simple-multiplayer-tic-tac-toe-game-using-angular-nodejs-socket-io-rooms-part-1/)
+
+##### Node.js
+
+1. [Node.js Essential Training (LinkedIn Learning)](https://www.linkedin.com/learning/node-js-essential-training/welcome)
 2. [NodeSchool](https://nodeschool.io/#workshoppers)
 3. [Node.js Download](https://nodejs.org/en/)
+4. [w3schools](https://www.w3schools.com/nodejs/)
