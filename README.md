@@ -7,7 +7,7 @@
 ![Connect 5](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png "Connect 5")
 
 So far, only single player (working on it)
-[Azure Link](http://test2-k00203642.azurewebsites.net/)
+[Azure Link](http://connect5-jor.azurewebsites.net/)
 
 
 ### Instructions
