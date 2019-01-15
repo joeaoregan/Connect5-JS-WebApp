@@ -23,7 +23,7 @@ npm install --save express socket.io
 ```
 node server.js
 ```
-5. navigate to [http://localhost:5000](http://localhost:5000)
+5. navigate to [http://localhost:5000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
 
 ### Links

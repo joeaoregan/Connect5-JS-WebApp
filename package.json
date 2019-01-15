@@ -6,9 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Joe O'Regan",
   "license": "ISC",
-  "description": "",
+  "description": "Connect 5 Game",
   "dependencies": {
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
