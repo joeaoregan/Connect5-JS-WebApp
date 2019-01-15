@@ -4,18 +4,13 @@
 */
 
 td {
-	height: 90px;
-	width: 100px;	
+	height: 70px;
+	width: 80px;	
 	text-align: center;
 	vertical-align: middle;
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	cursor: pointer;
-	border-radius: 45px;
-}
-
-table {	
-	margin: 5px 5px 5px 5px;
-	top: 175px;
+	border-radius: 35px;
 }
 
 .column {
@@ -24,9 +19,6 @@ table {
 .column:hover {
 	background-color: orange;
 	background-image: linear-gradient(yellow, orange);
-}
-td {
-	background-color: white;
 }
 
 .frame {
@@ -39,7 +31,21 @@ td {
   background-image: linear-gradient(to bottom right, white, grey);
 }
 
-tr {
-	padding-bottom: 55em;
-	padding: 10px;
+.button {
+	font-size: 120%;
+	font-weight: bold;
+	color: white;
+	border-radius: 15px;
+	background-color: grey;
+	cursor: pointer;
+	height: 40px;
+	padding: 5px 5px 5px 5px;
+}
+
+.button:hover {
+	background-color: LightGrey;
+}
+
+.button:active {
+	background-color: lime;
 }
