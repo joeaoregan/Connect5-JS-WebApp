@@ -32,6 +32,7 @@ var currentPlayer = PLAYER_1;
 var fiveInARow;
 var ready;
 var gameOver;
+var player1name, player2name;
 
 var board = [[0,0,0,0,0,0,0,0,0],	// init board
 			 [0,0,0,0,0,0,0,0,0],
@@ -62,7 +63,6 @@ app.get('/favicon.ico', function(req, res) {
 
 io.on('connection', (socket) => {
 	console.log("New Connection");
-	console.log("New Connection");
 		
     // Create a new game and notify player
     socket.on('create', (data) => {
@@ -74,23 +74,28 @@ io.on('connection', (socket) => {
 	socket.on('col', (data) => {		
 		if (data.player === currentPlayer) {
 			checkCol(data.column);
-			checkWin(data.player);
-			
-			//console.log('DATA.GAMEID: ', data.gameID); // check gameID received
+			checkWin(data.player);			
 			//console.log('DATA.GAMEID: ', data.gameID); // check gameID received
 		
-			// sockets join a room, makes it easier to to broadcast messages to other sockets
-			//socket.broadcast.to(data.gameID).emit('turnPlayed', { 														// UPDATES OPPOSITE PLAYER
-			io.to(data.gameID).emit('turnPlayed',  { // data.gameID = room
-			//socket.emit('turnPlayed', {
-				board: board,
-				column: data.column,
-				gameID: data.gameID,
-				player: currentPlayer
-			});
+			if (!gameOver) { 
+				changePlayer(); 	// Move complete, change the active player
 			
-			if (!gameOver) {
-				changePlayer();	// Move complete, change the active player
+				// sockets join a room, makes it easier to to broadcast messages to other sockets
+				//socket.broadcast.to(data.gameID).emit('turnPlayed', { 														// UPDATES OPPOSITE PLAYER
+				io.to(data.gameID).emit('turnPlayed',  { // data.gameID = room
+				//socket.emit('turnPlayed', {
+					board: board,
+					column: data.column,
+					gameID: data.gameID,
+					player: currentPlayer
+				});
+			} else {
+				//socket.broadcast.to(data.gameID).emit('gameEnd', data);
+				io.to(data.gameID).emit('gameOver', {
+					board: board, 
+					gameID: data.gameID,
+					player: currentPlayer
+				});
 			}
 			
 			console.log("column "+data.column+" selected by player " + data.player);
@@ -109,8 +114,13 @@ io.on('connection', (socket) => {
 		
         if (game && game.length === 1) {
             socket.join(data.gameID);			
-            socket.broadcast.to(data.gameID).emit('player1', {});			
-            socket.emit('player2', { username: data.username, gameID: data.gameID })			
+            socket.broadcast.to(data.gameID).emit('player1', {});				
+			
+            socket.emit('player2', { username: data.username, gameID: data.gameID });											// UPDATES OPPOSITE PLAYER
+			//io.to(data.gameID).emit('player2', { username: data.username, gameID: data.gameID });
+			
+			
+			
         } else {
             socket.emit('err', { message: 'This game is already full' });
         }
@@ -119,6 +129,7 @@ io.on('connection', (socket) => {
     // Broadcast game winner
     socket.on('gameOver', (data) => {
         socket.broadcast.to(data.gameID).emit('gameEnd', data);
+		//io.to(data.gameID).emit('gameEnd',  data);
     });
 });
 
@@ -128,6 +139,7 @@ io.on('connection', (socket) => {
 
 function checkCol(col) {
 	console.log('Checking column for ' + currentPlayer);
+	
 	if (board[0][col] != 0) {
 		console.log('\x1b[31mError:\x1b[0m Column %s is full!', col);
 	} else {	
@@ -138,15 +150,9 @@ function checkCol(col) {
 			}
 		}	
 		
-		//checkWin(currentPlayer);
-		
-		//if (!gameOver) {
-		//	changePlayer();	// Move complete, change the active player
-		//}
 		displayBoard(board);
 	}
 }
-
 
 function checkWin(player) {
 	console.log("Checking for winner");
@@ -207,7 +213,7 @@ function checkWin(player) {
 	
 	if (win) {
 		gameOver = true;
-		console.log('\x1b[32mPlayer %d is the winner!', player);
+		console.log('\x1b[32mPlayer %d is the winner!\x1b[0m"', player);
 		show5InARow();
 	}
 }
