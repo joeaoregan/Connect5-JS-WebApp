@@ -22,6 +22,7 @@ td {
 .column {
 	background-color: blue;
 }
+
 .column:hover {
 	background-color: orange;
 	background-image: linear-gradient(yellow, orange);

@@ -4,7 +4,7 @@
 	Connect 5
 	5 in a row game with client side logic
 */
-var socket = io();
+//var socket = io();
 
 const CONNECT = 5;
 const ROWS = 6;
@@ -47,7 +47,7 @@ startGame();	// Start the game
 
 function startGame() {
 	console.log('\x1b[36mStart Game!!!');
-	currentPlayer = PLAYER_1
+	currentPlayer = PLAYER_1;
 	ready = false;
 	gameOver = false; 
 	resetBoard(board);					// Reset: clears the board
