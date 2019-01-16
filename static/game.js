@@ -48,7 +48,6 @@ class Player {
 		this.playsArr = 0;
 	}
 }
-
 class Game {
 	constructor(gameID) {
 		this.gameID = gameID;
@@ -56,6 +55,13 @@ class Game {
 		this.gameOver = false;		
 		this.winBoard = board;
 		this.currentPlayer = 0;
+	}
+	
+	setCurrentPlayer(player) {
+		this.currentPlayer=player;
+	}
+	getGameID() {
+		return this.gameID;
 	}
 	
 	drawBoard(board) {	 
@@ -71,12 +77,14 @@ class Game {
 					cols[col][row].style.backgroundImage="linear-gradient(to bottom right, lime, green)";	// winning line
 			}
 		}
+		
+		this.displayCurrentPlayer();				// Reset: Clear the win message
 	}
 	
 	init() {
 		console.log('\x1b[36mStart Game!!! ' + gameID);
 		this.drawBoard(board);						// Reset: Draw the reset board
-		this.displayCurrentPlayer();				// Reset: Clear the win message
+		//this.displayCurrentPlayer();				// Reset: Clear the win message
 				
 		if (columns && !this.gameOver) {
 			for (var i = 0; i < columns.length; i++) {
@@ -98,7 +106,10 @@ class Game {
 			});
 		}
 		
-		this.drawBoard(game.board);
+		console.log('draw board after taking go');
+		//this.drawBoard(game.board);
+		this.drawBoard(board);
+		
 		player.turn = false;
 	}
 	
@@ -136,20 +147,17 @@ socket.on('player2', (data) => {
 	game.init();
 	game.showGame({name: data.username, gameID: data.gameID});
 	player.turn = false;
-	game.currentPlayer = PLAYER_1;
+	//game.currentPlayer = PLAYER_1;
+	//game.setCurrentPlayer(PLAYER_1);
 });
 
 socket.on('turnPlayed', (data) => {
-	console.log('turn played & board updated');
-	
-	console.log(data.board);
+	console.log('turn played & board updated');	
+	console.log("Game Board:\n", data.board);
 	game.board = data.board;
 	game.drawBoard(data.board);
-	game.currentPlayer = data.player;
+	game.setCurrentPlayer(data.player);
 	console.log('Current Player Now: ' + data.player);
-
-	//const opponentType = player.type === PLAYER_1 ? PLAYER_2 : PLAYER_1;
-	//game.updateBoard(opponentType, row, col, data.tile);
 	player.turn = true;
 });
 
@@ -167,7 +175,7 @@ function handleClicks(col) {
 		game.turn(col.currentTarget.id);	
 		
 		//socket.emit('col', {column : col.currentTarget.id, player: currentPlayer})
-		socket.emit('col', {column : col.currentTarget.id, player: player.type})
+		socket.emit('col', {column : col.currentTarget.id, player: player.type, gameID: game.getGameID()})
 	}
 }
 
@@ -195,7 +203,8 @@ function username2Button() {
 	console.log('Client (username2Button) - Username: ' + username2 + ' Game ID: ' + gameIDField);	
 	socket.emit('player2join', { username: username2, gameID: gameIDField });
 	player = new Player(username2, PLAYER_2);
-	game.currentPlayer = PLAYER_1;
+	//game.currentPlayer = PLAYER_1;
+	game.setCurrentPlayer(PLAYER_1);
 }
 /*
 if (columns && !gameOver) {

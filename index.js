@@ -2,14 +2,24 @@
 	Joe O'Regan
 	index.js
 */
+/*
 const express = require('express');
-const http = require('http');
+//const http = require('http');
 const path = require('path');
 const socketIO = require('socket.io');
 const port = process.env.PORT || 1337;
 const app = express();
-const server = http.Server(app).listen(port);
+//const server = http.Server(app).listen(port);
+const server = require('http').Server(app).listen(port);
 const io = socketIO(server);
+*/
+const port = process.env.PORT || 1337; // PORT NUMBER
+const express = require('express'); // OK
+const path = require('path'); // OK
+const app = express(); // OK
+const server = require('http').Server(app).listen(port);
+//var server = app.listen(port);
+const io = require('socket.io').listen(server);
 
 const CONNECT = 5;
 const ROWS = 6;
@@ -65,11 +75,14 @@ io.on('connection', (socket) => {
 		if (data.player === currentPlayer) {
 			checkCol(data.column);
 			checkWin(data.player);
+			
+			//console.log('DATA.GAMEID: ', data.gameID); // check gameID received
+			//console.log('DATA.GAMEID: ', data.gameID); // check gameID received
 		
 			// sockets join a room, makes it easier to to broadcast messages to other sockets
-			//socket.broadcast.to(data.gameID).emit('turnPlayed', {
-			//io.to(data.gameID).emit('event');	// data.gameID = room
-			socket.emit('turnPlayed', {
+			//socket.broadcast.to(data.gameID).emit('turnPlayed', { 														// UPDATES OPPOSITE PLAYER
+			io.to(data.gameID).emit('turnPlayed',  { // data.gameID = room
+			//socket.emit('turnPlayed', {
 				board: board,
 				column: data.column,
 				gameID: data.gameID,
@@ -88,7 +101,7 @@ io.on('connection', (socket) => {
 	
     // Connect the Player 2 to the room he requested. Show error if room full.
     socket.on('player2join', function (data) {
-		console.log("player2join: " + data.username + " has joined " + data.gameID);
+		console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);
 		
 		currentPlayer = PLAYER_1;
 		
