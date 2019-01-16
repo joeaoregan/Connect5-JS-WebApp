@@ -49,7 +49,7 @@ var server = http.Server(app, function(req, res) {
     console.log(`${req.method} request for ${req.url}`);
 	
 	if (req.url === "/") {
-		fs.readFile("./index.html", "UTF-8", function(err, html) {
+		fs.readFile("./static/index.html", "UTF-8", function(err, html) {
 			res.writeHead(200, {"Content-Type": "text/html"});
 			res.end(html);
 		});
@@ -74,11 +74,12 @@ var io = socketIO(server);
 console.log("Server running at http://localhost:%d", port);
 
 app.set('port', port);
-app.use('/static', express.static(__dirname + '/static'));
+app.set('port', port);
+app.use('/', express.static(__dirname + '/'));
 
 // Routing
 app.get('/', function(request, response) {
-	response.sendFile(path.join(__dirname, 'index.html'));
+	response.sendFile(path.join(__dirname + '/static', 'index.html'));
 	
 	//var testURL = fullUrl(request);
 	
@@ -88,7 +89,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/style.css', function(req, res) {
-	res.sendFile(__dirname + "/static" + "style.css");
+	res.sendFile(__dirname + "/static/" + "style.css");
 });
 
 io.on('connection', (socket) => {

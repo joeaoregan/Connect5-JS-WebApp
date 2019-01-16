@@ -7,10 +7,11 @@ body {
 	text-align: center;
 }
 
-
 td {
 	height: 70px;
-	width: 80px;	
+	width: 80px;
+	min-height: 70px;
+	min-width: 70px;
 	text-align: center;
 	vertical-align: middle;
 	font-family: "Comic Sans MS", cursive, sans-serif;

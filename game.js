@@ -71,7 +71,7 @@ function turn(colID, player) {
 function drawBoard() {	 
 	for (var row = 0; row < ROWS; row++) {
 		for (var col = 0; col < COLS; col++) {	
-			if (board[row][col] == 0)
+			if (board[row][col] === 0)
 				cols[col][row].style.backgroundImage="linear-gradient(to bottom right, white, grey))";	// empty		
 			else if (board[row][col] == 1)
 				cols[col][row].style.backgroundImage="linear-gradient(to bottom right, red, darkred)";	// player 1
@@ -149,11 +149,11 @@ function checkWin(player) {
 }
 
 function checkCol(col) {
-	if (board[0][col] != 0) {
+	if (board[0][col] !== 0) {
 		console.log('\x1b[31mError:\x1b[0m Column %s is full!', col);
 	} else {	
 		for (var i = ROWS-1; i >= 0; i--) {
-			if (board[i][col] == 0) {
+			if (board[i][col] === 0) {
 				board[i][col] = currentPlayer;
 				break;
 			}
