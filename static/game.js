@@ -56,6 +56,7 @@ class Game {
 		this.winBoard = board;
 		this.currentPlayer = 0;
 	}	
+	
 	setCurrentPlayer(player) {
 		this.currentPlayer=player;
 	}
@@ -73,6 +74,8 @@ class Game {
 	}
 	
 	init() {
+		this.board = board;
+		resetBoard(board);					// Reset: clears the board
 		//this.readyToPlay = true;
 		console.log('\x1b[36mStart Game!!! ' + this.gameID);
 		this.drawBoard(this.board);						// Reset: Draw the reset board
@@ -231,4 +234,14 @@ function startGame() {
 	console.log('Start New Game');
 	//socket.emit('newGame', { username: data.username, gameID: `game-${games}` });
 	game = new Game(game.gameID);
+	game.init();
+}
+
+function resetBoard(board) {
+	for (var row = 0; row < ROWS; row++) {
+		for (var col = 0; col < COLS; col++) {
+			board[row][col] = 0;			
+			cols[col][row].style.backgroundImage="";	// Reset coloured cells
+		}
+	}
 }

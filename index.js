@@ -131,6 +131,10 @@ io.on('connection', (socket) => {
         socket.broadcast.to(data.gameID).emit('gameEnd', data);
 		//io.to(data.gameID).emit('gameEnd',  data);
     });
+	
+	socket.on('disconnect', function() {
+		console.log('Player  has disconnected');	
+	});
 });
 
 
@@ -244,15 +248,6 @@ function displayBoard(board) {
 	console.log('===========================');
 	console.log('|        \x1b[36mCONNECT 5\x1b[34m        |');
 	console.log('===========================\x1b[0m');
-}
-
-function resetBoard(board) {
-	for (var row = 0; row < ROWS; row++) {
-		for (var col = 0; col < COLS; col++) {
-			board[row][col] = 0;			
-			cols[col][row].style.backgroundImage="";	// Reset coloured cells
-		}
-	}
 }
 
 // Highlight the winning row
