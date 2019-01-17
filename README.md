@@ -8,7 +8,7 @@
 
 So far, only single player (working on it)
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
-* [Azure Link](http://connect5-jor.azurewebsites.net/)
+* [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
 
 
 ### Instructions

@@ -3,36 +3,25 @@
 	index.js
 */
 /*
-const express = require('express');
 //const http = require('http');
-const path = require('path');
 const socketIO = require('socket.io');
-const port = process.env.PORT || 1337;
-const app = express();
 //const server = http.Server(app).listen(port);
-const server = require('http').Server(app).listen(port);
 const io = socketIO(server);
 */
 const port = process.env.PORT || 1337; // PORT NUMBER
 const express = require('express'); // OK
 const path = require('path'); // OK
 const app = express(); // OK
-const server = require('http').Server(app).listen(port);
-//var server = app.listen(port);
+const server = require('http').Server(app).listen(port);	//var server = app.listen(port);
 const io = require('socket.io').listen(server);
 
-const CONNECT = 5;
-const ROWS = 6;
-const COLS = 9;
-const PLAYER_1 = 1;
-const PLAYER_2 = 2;
+const CONNECT = 5, ROWS = 6, COLS = 9;
+const PLAYER_1 = 1, PLAYER_2 = 2;
 
 var games = 0;
 var currentPlayer = PLAYER_1;
 var fiveInARow;
-var ready;
 var gameOver;
-var player1name, player2name;
 
 var board = [[0,0,0,0,0,0,0,0,0],	// init board
 			 [0,0,0,0,0,0,0,0,0],
@@ -42,6 +31,7 @@ var board = [[0,0,0,0,0,0,0,0,0],	// init board
 			 [0,0,0,0,0,0,0,0,0]];			
 var winBoard = board;	
 
+displayBoard(board);
 console.log("Server running at http://localhost:%d", port);
 
 app.set('port', port);
@@ -50,7 +40,6 @@ app.use('/static', express.static(__dirname + '/static'));
 // Routing
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));	
-	//console.log('Request ' + req.get('host'));	
 });
 
 app.get('/style.css', function(req, res) {
@@ -74,31 +63,20 @@ io.on('connection', (socket) => {
 	socket.on('col', (data) => {		
 		if (data.player === currentPlayer) {
 			checkCol(data.column);
-			checkWin(data.player);			
-			//console.log('DATA.GAMEID: ', data.gameID); // check gameID received
-		
-			if (!gameOver) { 
-				changePlayer(); 	// Move complete, change the active player
+			checkWin(data.player);					
+			changePlayer(); 	// Move complete, change the active player
 			
-				// sockets join a room, makes it easier to to broadcast messages to other sockets
-				//socket.broadcast.to(data.gameID).emit('turnPlayed', { 														// UPDATES OPPOSITE PLAYER
-				io.to(data.gameID).emit('turnPlayed',  { // data.gameID = room
-				//socket.emit('turnPlayed', {
-					board: board,
-					column: data.column,
-					gameID: data.gameID,
-					player: currentPlayer
-				});
-			} else {
-				//socket.broadcast.to(data.gameID).emit('gameEnd', data);
-				io.to(data.gameID).emit('gameOver', {
-					board: board, 
-					gameID: data.gameID,
-					player: currentPlayer
-				});
-			}
+			// sockets join a room, makes it easier to to broadcast messages to other sockets
+			//socket.emit('turnPlayed', {
+			//socket.broadcast.to(data.gameID).emit('turnPlayed', { 														// UPDATES OPPOSITE PLAYER
+			//socket.broadcast.to(data.gameID).emit('gameEnd', data);
+			io.to(data.gameID).emit((gameOver) ? 'gameOver' : 'turnPlayed', {
+				board: board,
+				column: data.column,
+				gameID: data.gameID,						// data.gameID = room
+				player: currentPlayer
+			});
 			
-			console.log("column "+data.column+" selected by player " + data.player);
 		} else {
 			console.log("Not Your Turn Player %s!", data.player);
 		}	
@@ -106,21 +84,16 @@ io.on('connection', (socket) => {
 	
     // Connect the Player 2 to the room he requested. Show error if room full.
     socket.on('player2join', function (data) {
-		console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);
-		
-		currentPlayer = PLAYER_1;
-		
+		console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);		
+		currentPlayer = PLAYER_1;		
         var game = io.nsps['/'].adapter.rooms[data.gameID];
 		
         if (game && game.length === 1) {
             socket.join(data.gameID);			
             socket.broadcast.to(data.gameID).emit('player1', {});				
 			
-            socket.emit('player2', { username: data.username, gameID: data.gameID });											// UPDATES OPPOSITE PLAYER
-			//io.to(data.gameID).emit('player2', { username: data.username, gameID: data.gameID });
-			
-			
-			
+            socket.emit('player2', { username: data.username, gameID: data.gameID });										// UPDATES OPPOSITE PLAYER
+			//io.to(data.gameID).emit('player2', { username: data.username, gameID: data.gameID });			
         } else {
             socket.emit('err', { message: 'This game is already full' });
         }
@@ -133,17 +106,12 @@ io.on('connection', (socket) => {
     });
 	
 	socket.on('disconnect', function() {
-		console.log('Player  has disconnected');	
+		console.log('Player  has disconnected');
 	});
 });
 
-
-
-// Game
-
 function checkCol(col) {
-	console.log('Checking column for ' + currentPlayer);
-	
+	console.log('Check column '+col+' for Player' + currentPlayer);	
 	if (board[0][col] != 0) {
 		console.log('\x1b[31mError:\x1b[0m Column %s is full!', col);
 	} else {	
@@ -152,14 +120,12 @@ function checkCol(col) {
 				board[i][col] = currentPlayer;
 				break;
 			}
-		}	
-		
+		}			
 		displayBoard(board);
 	}
 }
 
 function checkWin(player) {
-	console.log("Checking for winner");
 	// Diagonals
 	var win = false;
 	
@@ -217,52 +183,34 @@ function checkWin(player) {
 	
 	if (win) {
 		gameOver = true;
-		console.log('\x1b[32mPlayer %d is the winner!\x1b[0m"', player);
-		show5InARow();
+		highlightWinner(player);
 	}
 }
 
 function displayBoard(board) {
-	console.log();
-	console.log('  \x1b[36m%s\x1b[0m %s', 'Connect5', 'by Joe O\'Regan');  //cyan
-
-	var redO = "\x1b[31mO";
-	var yellowO = "\x1b[33mO";
-	var emptyCol = "\x1b[34m ";
-	var greenO = "\x1b[32mO";
-
+	console.log('\n  \x1b[36m%s\x1b[0m %s', 'Connect5', 'by Joe O\'Regan');  //cyan
 	console.log('\x1b[34m_\x1b[0m1\x1b[34m__\x1b[0m2\x1b[34m__\x1b[0m3\x1b[34m__\x1b[0m4\x1b[34m__\x1b[0m5\x1b[34m__\x1b[0m6\x1b[34m__\x1b[0m7\x1b[34m__\x1b[0m8\x1b[34m__\x1b[0m9\x1b[34m_');
 	for (var i = 0; i < ROWS; i++) { // display 0 to 5
-		console.log('\x1b[34m[%s\x1b[34m][\x1b[0m%s\x1b[34m][%s\x1b[34m][%s\x1b[34m][%s\x1b[34m][%s\x1b[34m][%s\x1b[34m][%s\x1b[34m][%s\x1b[34m]',
-		(board[i][0] === 0) ? emptyCol : (board[i][0] == 1) ? redO : (board[i][0] == 2) ? yellowO : greenO,
-		(board[i][1] === 0) ? emptyCol : (board[i][1] == 1) ? redO : (board[i][1] == 2) ? yellowO : greenO,
-		(board[i][2] === 0) ? emptyCol : (board[i][2] == 1) ? redO : (board[i][2] == 2) ? yellowO : greenO,
-		(board[i][3] === 0) ? emptyCol : (board[i][3] == 1) ? redO : (board[i][3] == 2) ? yellowO : greenO,
-		(board[i][4] === 0) ? emptyCol : (board[i][4] == 1) ? redO : (board[i][4] == 2) ? yellowO : greenO,
-		(board[i][5] === 0) ? emptyCol : (board[i][5] == 1) ? redO : (board[i][5] == 2) ? yellowO : greenO,
-		(board[i][6] === 0) ? emptyCol : (board[i][6] == 1) ? redO : (board[i][6] == 2) ? yellowO : greenO,
-		(board[i][7] === 0) ? emptyCol : (board[i][7] == 1) ? redO : (board[i][7] == 2) ? yellowO : greenO,		
-		(board[i][8] === 0) ? emptyCol : (board[i][8] == 1) ? redO : (board[i][8] == 2) ? yellowO : greenO);
-	}
-	
-	console.log('===========================');
+		for (var j = 0; j < 9; j++) {
+			process.stdout.write((board[i][j] === 0) ? '[\x1b[34m ]' : (board[i][j] == 1) ? '[\x1b[31mO\x1b[34m]' : (board[i][j] == 2) ? '[\x1b[33mO\x1b[34m]' : '[\x1b[32mO\x1b[34m]');
+		}
+		process.stdout.write('\n');
+	}	
+	console.log("=".repeat(27));
 	console.log('|        \x1b[36mCONNECT 5\x1b[34m        |');
-	console.log('===========================\x1b[0m');
+	console.log("=".repeat(27)+"\x1b[0m");
 }
 
 // Highlight the winning row
-function show5InARow() {	
-	for (var row = 0; row < ROWS; row++) {
-		for (var col = 0; col < COLS; col++) {
-			winBoard[row][col] = board[row][col];
-		}
-	}	
+function highlightWinner(player) {
+	console.log("\n\x1b[32m"+"*".repeat(27) + '\n* Player '+player+' is the winner! *\n' + "*".repeat(27)+ "\x1b[0m");
+	winBoard = board;
 	for (var i = 0; i < (CONNECT*2); i += 2) {
 		winBoard[fiveInARow[i]][fiveInARow[i + 1]] = 3; // Highlight winning line
-	}	
+	}
+	displayBoard(winBoard);
 }
 
-function changePlayer() {
-	currentPlayer = (currentPlayer == PLAYER_1) ? PLAYER_2 : PLAYER_1;
-	//displayCurrentPlayer();
+function changePlayer() {	
+	currentPlayer = (currentPlayer == PLAYER_1 && !gameOver) ? PLAYER_2 : PLAYER_1;	// If the game is not over change the current player, otherwise leave as is for winner message
 }

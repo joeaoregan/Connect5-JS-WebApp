@@ -1,21 +1,12 @@
 /*
 	Joe O'Regan
 	game.js
-	Connect 5
-	5 in a row game with client side logic
+	Connect 5: 5 in a row game with client side logic
 */
-var socket = io();
+const socket = io();
+const ROWS = 6, COLS = 9;
+const PLAYER_1 = 1, PLAYER_2 = 2;
 
-//const CONNECT = 5;
-const ROWS = 6;
-const COLS = 9;
-const PLAYER_1 = 1;
-const PLAYER_2 = 2;
-
-//var currentPlayer;
-//var fiveInARow;
-//var ready;
-//var gameOver;
 var board = [[0,0,0,0,0,0,0,0,0],	// init board
 			 [0,0,0,0,0,0,0,0,0],
 			 [0,0,0,0,0,0,0,0,0],
@@ -26,17 +17,10 @@ var winBoard;
 var player, game;
 
 const columns = document.querySelectorAll('.column');
-const col0 = document.querySelectorAll('.col0');	// IDs of cells in each column
-const col1 = document.querySelectorAll('.col1');
-const col2 = document.querySelectorAll('.col2');
-const col3 = document.querySelectorAll('.col3');
-const col4 = document.querySelectorAll('.col4');
-const col5 = document.querySelectorAll('.col5');
-const col6 = document.querySelectorAll('.col6');
-const col7 = document.querySelectorAll('.col7');
-const col8 = document.querySelectorAll('.col8');
-const cols = [col0, col1, col2, col3, col4, col5, col6, col7, col8];
-
+var cols=[];
+for (var i = 0; i < 9; i++) {
+	cols[i] = document.querySelectorAll('.col'+i);	// Used to draw the disks
+}
 document.querySelector('#newGameBtn').addEventListener('click', username1Button, false);
 document.querySelector('#existingBtn').addEventListener('click', username2Button, false);
 
@@ -47,6 +31,7 @@ class Player {
 		this.turn = false;
 	}
 }
+
 class Game {
 	constructor(gameID) {
 		this.readyToPlay = false;
@@ -57,26 +42,15 @@ class Game {
 		this.currentPlayer = 0;
 	}	
 	
-	setCurrentPlayer(player) {
-		this.currentPlayer=player;
-	}
-	getGameID() {
-		return this.gameID;
-	}
-	setReadyToPlay(ready) {
-		this.readyToPlay = ready;
-	}
-	setGameOver(gameOver) {
-		this.gameOver=gameOver;
-	}
-	getBoard() {
-		return this.board;
-	}
+	setCurrentPlayer(player) { this.currentPlayer=player; }
+	getGameID() { return this.gameID; }
+	setReadyToPlay(ready) { this.readyToPlay = ready; }
+	setGameOver(gameOver) { this.gameOver=gameOver; }
+	getBoard() { return this.board; }
 	
 	init() {
 		this.board = board;
 		resetBoard(board);					// Reset: clears the board
-		//this.readyToPlay = true;
 		console.log('\x1b[36mStart Game!!! ' + this.gameID);
 		this.drawBoard(this.board);						// Reset: Draw the reset board
 				
@@ -97,7 +71,6 @@ class Game {
 			}
 			
 			console.log('draw board after taking go');
-			//this.drawBoard(game.board);
 			this.drawBoard(this.board);
 			
 			player.turn = false;
@@ -133,10 +106,8 @@ class Game {
 	showGame(data) {
 		document.getElementById("selectGame").style.display = "none";
 		document.getElementById("gameBoard").style.display = "inline";	
-		document.getElementById("gameBoard").style.display = "inline";	
 		document.getElementById("username").innerText = "Player " + player.type + ": " + player.name;
 		
-		//if (!this.readyToPlay) {
 		if (!this.currentPlayer == PLAYER_1) {
 			document.getElementById("displayMessage").innerText = "Welcome "+ player.name + ". Player 2 must enter Game ID: \"" + data.gameID + "\" to join";
 		} else {
@@ -155,8 +126,6 @@ socket.on('player1', (data) => {
 	console.log('Player 1 Init');
 	game.currentPlayer = PLAYER_1;
 	game.drawBoard(game.getBoard());
-	//const message = `Hello, ${player.getPlayerName()}`;
-	//$('#userHello').html(message);
 });
 
 // Create game for player 2
@@ -170,24 +139,20 @@ socket.on('player2', (data) => {
 
 socket.on('turnPlayed', (data) => {
 	console.log('turn played & board updated');	
-	//console.log("Game Board:\n", data.board);
 	game.board = data.board;
-	game.setCurrentPlayer(data.player);											// SET THE CURRENT PLAYER BEFORE DRAWING THE BOARD
+	game.setCurrentPlayer(data.player);
 	game.drawBoard(data.board);
 	console.log('Current Player Now: ' + data.player);
 	player.turn = true;
 });
 
-// If the other player wins, this event is received. Notify user game has ended.
 socket.on('gameOver', (data) => {
 	console.log('Game Finished');
-	game.setGameOver(true);
-	
+	game.setGameOver(true);	
 	
 	game.board = data.board;
 	game.setCurrentPlayer(data.player);	
 	game.drawBoard(data.board);
-	//game.endGame(data.message);
 	//socket.leave(data.room);	
 });
 
@@ -244,4 +209,8 @@ function resetBoard(board) {
 			cols[col][row].style.backgroundImage="";	// Reset coloured cells
 		}
 	}
+}
+
+function refreshPage() {
+	location.reload();
 }
