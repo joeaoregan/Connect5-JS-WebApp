@@ -1,5 +1,8 @@
-// Interacting with another browsers
-
+/*
+	Joe O'Regan
+	server.js
+	Connect 5 - Multiplayer
+*/
 const express = require('express'),
 	http = require('http');
 	socketio = require('socket.io');
@@ -11,22 +14,8 @@ var io = require('socket.io').listen(server);
 
 app.use(express.static('static'));
 
-
 const CONNECT = 5, ROWS = 6, COLS = 9;
 const PLAYER_1 = 1, PLAYER_2 = 2;
-/*
-const initialBoard = [[0,0,0,0,0,0,0,0,0],		// init board
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0]];	
-*/
-//const initialBoard;
-
-
-//initialBoard = resetBoard([6,9]);
-//const initialBoard = Array(6).fill().map(() => Array(9).fill(0));
 
 var gamesPlayed = 0;
 var games = new Array();						// Array of games
@@ -42,57 +31,26 @@ class Game {
 		this.player2 = "";
 	}
 	
-	getBoard() {
-		return this.board;
+	getBoard() { return this.board; }
+	setBoard(b) { this.board = b; }
+	getGameOver() { return this.gameOver; }
+	setGameOver(t) { this.gameOver = t; }
+	getCurrentPlayer() { return this.currentPlayer; }
+	setCurrentPlayer(p) { this.currentPlayer = p; }
+	getPlayer1Name() {return this.player1; }
+	getPlayer2Name() {return this.player2; }
+	setPlayer1Name(p1) { this.player1 = p1; }
+	setPlayer2Name(p2) { this.player2 = p2; }
+	get5InARow() { return this.fiveInARow; }
+	set5InARow(f){ this.fiveInARow = f; }
+	
+	resetGame() {
+		this.currentPlayer = PLAYER_1;
+		this.fiveInARow = Array(10).fill(0);
+		this.gameOver = false;
+		this.board = Array(6).fill().map(() => Array(9).fill(0));
 	}
-	setBoard(b) {
-		this.board = b;
-	}
-	getGameOver() {
-		return this.gameOver;
-	}
-	setGameOver(t) {
-		this.gameOver = t;
-	}
-	getCurrentPlayer() {
-		return this.currentPlayer;
-	}
-	setCurrentPlayer(p) {
-		this.currentPlayer = p;
-	}
-	setPlayer1Name(p1) {
-		this.player1 = p1;
-	}
-	setPlayer2Name(p2) {
-		this.player2 = p2;
-	}
-	get5InARow() {
-		return this.fiveInARow;
-	}
-	set5InARow(f){
-		this.fiveInARow = f;
-	}
-	/*
-	set5inARow() {
-		var arr = new Array();
-		for (var i = 0; i < arguments.length; i++)  {
-			arr[i] = arguments[i];
-		}
-		this.fiveInARow = arr;
-	}
-	*/
 }
-
-
-//games[0] = new Game(10);
-//games[0].set5InARow(new Array(1,2,3,4,5,6,7));
-//console.log('test');
-//games[0].set5InARow(1,2,3,4,5,6,7);
-//console.log('test');
-
-//console.log(games[0].get5InARow());
-
-
 
 io.on('connection', (socket) => {
 	console.log("New Connection");
@@ -112,11 +70,11 @@ io.on('connection', (socket) => {
 	socket.on('col', (data) => {
 		index = parseInt(data.gameID.split('-')[1]);				
 		if (data.player === games[index].getCurrentPlayer()) {
-			checkCol(data.column, index);											// check for each room
+			checkCol(data.column, index);																// check for each room
 			checkWin(games[index].getCurrentPlayer(), parseInt(data.gameID.split('-')[1]));					
 			changePlayer(index); 																		// Move complete, change the active player
 			
-			io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameOver' : 'turnPlayed', {
+			io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
 				board: games[index].getBoard(),
 				column: data.column,
 				gameID: data.gameID,																	// data.gameID = room
@@ -137,11 +95,11 @@ io.on('connection', (socket) => {
 			console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);
             socket.join(data.gameID);
 			
-			games[parseInt(data.gameID.split('-')[1])].setPlayer2Name(data.username);							// Set Player 2 username
+			games[parseInt(data.gameID.split('-')[1])].setPlayer2Name(data.username);					// Set Player 2 username
 			games[parseInt(data.gameID.split('-')[1])].setCurrentPlayer(PLAYER_1);						// Set the first turn to player 1
 			
             socket.broadcast.to(data.gameID).emit('player1', {});
-            socket.emit('player2', { username: data.username, gameID: data.gameID });
+            socket.emit('player2', { username: data.username, gameID: data.gameID });					// player 2 username
         } else {
             socket.emit('err', { message: 'This game is already full' });
         }
@@ -150,6 +108,37 @@ io.on('connection', (socket) => {
     socket.on('gameOver', (data) => {
         socket.broadcast.to(data.gameID).emit('gameEnd', data);
     });
+	
+	
+	
+	
+	
+	
+	
+	socket.on('resetGame', (data) => {
+		console.log('\x1b[31m*** ' + data.gameID.toUpperCase() + ' RESET ***\x1b[0m');
+		console.log('Game: '+data.gameID+' Reset by: '+data.player);
+		
+		
+		//games[parseInt(data.gameID.split('-')[1])].setBoard(Array(6).fill().map(() => Array(9).fill(0)));		
+		//games[parseInt(data.gameID.split('-')[1])].setCurrentPlayer(PLAYER_1);
+		
+		//game.gameOver();
+		//games[parseInt(data.gameID.split('-')[1])].setGameOver(false);
+		games[parseInt(data.gameID.split('-')[1])].resetGame();
+		
+		//game.set5InARow(Array(10).fill(0));
+		
+		
+		
+		//socket.emit('clearBoard', {player: data.player, gameID: data.gameID});
+        socket.broadcast.to(data.gameID).emit('clearBoard', {player: data.player, gameID: data.gameID});		
+	});
+	
+	socket.on('leaveGame', (data) => {
+		console.log('Player : ' + data.player + ' has left Game: ' + data.gameID);
+        socket.broadcast.to(data.gameID).emit('shutdownMsg', data);
+	});
 	
 	socket.on('disconnect', function() {
 		console.log('Player  has disconnected');
@@ -194,7 +183,6 @@ function checkWin(player, index) {
 					&& board[row + 3][col - 3] == player && board[row + 4][col - 4] == player) {
 				win = true;
 				games[index].set5InARow(new Array(row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4)); // Highlight winning move
-				//games[index].set5InARow(row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4);
 				break;
 			}
 		}
@@ -206,7 +194,6 @@ function checkWin(player, index) {
 						&& board[row + 3][col + 3] == player && board[row + 4][col + 4] == player) {
 					win = true;
 					games[index].set5InARow(new Array(row,col,row+1,col+1,row+2,col+2,row+3,col+3,row+4,col+4));
-					//games[index].set5InARow(row,col,row+1,col+1,row+2,col+2,row+3,col+3,row+4,col+4);
 					break;
 				}
 			}
@@ -222,7 +209,6 @@ function checkWin(player, index) {
 					&& board[row][col + 3] == player && board[row][col + 4] == player) {
 				win = true;
 				games[index].set5InARow(new Array(row,col,row,col+1,row,col+2,row,col+3,row,col+4));
-				//games[index].set5InARow(row,col,row,col+1,row,col+2,row,col+3,row,col+4);
 				break;
 			}
 		}
@@ -236,7 +222,6 @@ function checkWin(player, index) {
 					&& board[row + 3][col] == player && board[row + 4][col] == player) {
 				win = true;
 				games[index].set5InARow(new Array(row,col,row+1,col,row+2,col,row+3,col,row+4,col));
-				//games[index].set5InARow(row,col,row+1,col,row+2,col,row+3,col,row+4,col);
 				break;
 			}
 		}
@@ -246,7 +231,6 @@ function checkWin(player, index) {
 	if (win) {
 		games[index].setGameOver(true);
 		highlightWinner(player, board);
-		console.log('================ WIN',player)
 	}
 }
 
@@ -276,13 +260,9 @@ function displayBoard(board, game) {
 function highlightWinner(player, finalBoard) {
 	console.log("\n\x1b[32m"+"*".repeat(27) + '\n* Player '+player+' Is The Winner! *\n' + "*".repeat(27)+ "\x1b[0m");		
 	var winBoard = finalBoard;
-	//var winningLineArray = games[index].get5InARow();
-	
-	console.log('5 IN A ROW ', games[index].get5InARow());
 	
 	for (var i = 0; i < (CONNECT*2); i += 2) {		
 		winBoard[games[index].get5InARow()[i]][games[index].get5InARow()[i + 1]] = 3; // Highlight winning line
-		//winBoard[winningLineArray[i]][winningLineArray[i + 1]] = 3; // Highlight winning line
 	}
 	
 	displayBoard(winBoard, 'over');
@@ -291,12 +271,3 @@ function highlightWinner(player, finalBoard) {
 function changePlayer(index) {	
 	games[index].setCurrentPlayer((games[index].getCurrentPlayer() == PLAYER_1 && !games[index].getGameOver()) ? PLAYER_2 : PLAYER_1);	// If the game is not over change the current player, otherwise leave as is for winner message
 }
-/*
-function resetBoard(dimensions) {
-    var array = [];
-    for (var i = 0; i < dimensions[0]; ++i) {
-        array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
-    }
-    return array;
-}
-*/
