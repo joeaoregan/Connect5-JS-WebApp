@@ -6,12 +6,24 @@
 
 ![Connect 5](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png "Connect 5")
 
-So far, only single player (working on it)
+* Single device and multiplayer / multiple device communication working (See Heroku link).
+* Different games can take place at the same time.
+
+##### Play the game:
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
 * [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
-
+* [Heroku Multiplayer (WORKING)](https://connect5-jor.herokuapp.com/)
 
 ### Instructions
+
+##### Play
+
+* Player 1 creates a game and is assigned a Game ID
+* Player 2 enters game ID from Player 1 to join game
+* Player 1 goes first
+* Winning 5-in-a-row is highlighted when game is won
+
+##### Install
 
 1. Download and unzip project
 2. [Install Node.js](https://nodejs.org/en/)
