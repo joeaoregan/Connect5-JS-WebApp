@@ -8,6 +8,8 @@
 
 * Single device and multiplayer / multiple device communication working (See Heroku link).
 * Different games can take place at the same time.
+* Opponent move is highlighted
+* Added chat feature
 
 ##### Play the game:
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)

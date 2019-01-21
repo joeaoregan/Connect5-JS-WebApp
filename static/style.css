@@ -4,6 +4,7 @@
 */
 
 body {
+	background-color: white;
 	text-align: center;
 }
 
@@ -17,6 +18,24 @@ td {
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	cursor: pointer;
 	border-radius: 35px;
+}
+
+.title, .main, .chatdiv, .links {
+	margin: auto;
+	width: 90%;
+	border-radius: 10px;
+	text-align: center;
+	padding: 1px;
+}
+
+.title {
+	background-color: royalblue;
+	color: white
+}
+
+.gameBoard { 
+	text-align: center;
+	display: none;
 }
 
 .column {
@@ -61,3 +80,20 @@ td {
   max-width: 720px;
   margin: auto;
 }
+
+.links {
+	background-color: dimgrey;
+	color: white;
+}
+
+a:hover {
+	color: grey;
+}
+a {
+	color: white;
+}
+
+ table.frame {
+    margin-left:auto; 
+    margin-right:auto;
+  }

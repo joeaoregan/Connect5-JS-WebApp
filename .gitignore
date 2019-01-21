@@ -4,6 +4,7 @@
 # Ignore this
 
 /node_modules/
+*.bak
 
 # Ignore web
 

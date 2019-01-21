@@ -104,6 +104,7 @@ class Game {
 	showDetails(data) {
 		document.getElementById("selectGame").style.display = "none";
 		document.getElementById("gameBoard").style.display = "inline";
+		document.getElementById("hidechat").style.display = "inline";
 		document.getElementById("show-gameid").innerText = "Game: " + data.gameID;
 		
 		if (game.getCurrentPlayer() === 0) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<title>Connect 5</title>
@@ -9,9 +9,12 @@
 	</head>
 
 	<body>
+	<div class="title">
 		<h1>Connect 5</h1>
 		<h2>by Joe O'Regan</h2>
-		
+	</div>
+	
+	<div class="main">
 		<div class="selectGame" id="selectGame">		
 			<div>
 				<h3>Play A Game</h3>
@@ -33,7 +36,8 @@
 			<button class="button" id="existingBtn">Join Game</button>
 		</div>
 			
-		<div class="gameBoard" id="gameBoard" align="center" style="display: none;">
+		<div class="gameBoard" id="gameBoard">
+		<br>
 			<h2 id="show-gameid"></h2>
 			<h3 id="username"></h3>
 			<p id="displayMessage"></p>
@@ -134,31 +138,36 @@
 			</table>			
 			<br>			
 			
-			<div><h2 id="player_info"></h2></div>
+			<div><h2 id="player_info"></h2>info</div>
 			
 			<button onClick="resetGameButton()" class="button">Reset Game</button>
 			<button onClick="leaveGameButton()" class="button">Leave Game</button>
-			<br><br>
-		
-		
-			<div class="chatdiv">
-				<div class="input">
-					<input type="text" id="messagetext" placeholder="Write here..." class="inputTxt"/>
-					<button id="inputBtn" class="button inputBtn">Send</button>
-				</div>
-				
-				<div class="msgdiv" id = "msgList">
-				</div>
+			<br>
+		</div>
+		<br> 
+	</div>
+	<br>
+	
+	<div class="hidechat" id="hidechat">
+		<div class="chatdiv" id="chatdiv">
+			<div class="input">
+				<input type="text" id="messagetext" placeholder="Write here..." class="inputTxt"/>
+				<button id="inputBtn" class="button inputBtn">Send</button>
 			</div>
-		
-		
+			
+			<div class="msgdiv" id = "msgList">
+			</div>
+			<br>
 		</div>
-		
-		
-		<div>
-			<h2>Links</h2>
-			<a href="https://github.com/joeaoregan/Connect5-JS" target="_blank">Connect 5 GitHub</a>
-		</div>
+		<br>
+	</div>
+	
+	<div class="links">			
+		<h2>Links</h2>
+		<a href="https://github.com/joeaoregan/Connect5-JS" target="_blank">Connect 5 GitHub</a><br>
+		<a href="https://connect5-jor.herokuapp.com/" target="_blank">Play Online: Connect 5 Heroku</a>
+		<br><br>
+	</div>	
 	
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="game.js"></script>
