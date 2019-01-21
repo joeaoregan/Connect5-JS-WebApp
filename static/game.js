@@ -281,3 +281,17 @@ function leaveGameButton() {
 	socket.emit('leaveGame', {player: player.name, gameID: game.getGameID()});
 	location.reload(true);
 }
+
+enterPressed("username1", "newGameBtn");
+enterPressed("username2", "existingBtn");
+enterPressed("gameID", "existingBtn");
+
+function enterPressed(textField, buttonName) {
+	document.getElementById(textField)
+		.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			document.getElementById(buttonName).click();
+		}
+	});
+}

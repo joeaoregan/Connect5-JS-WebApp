@@ -140,8 +140,9 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port);
+console.clear();																					// Clear console text
 console.log("Server running at http://localhost: " + port);
-displayBoard(Array(6).fill().map(() => Array(9).fill(0)),"");					// Show empty board to begin with
+displayBoard(Array(6).fill().map(() => Array(9).fill(0)),"");										// Show empty board to begin with
 
 
 function checkCol(col, index, gameID) {
