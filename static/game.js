@@ -130,7 +130,6 @@ class Game {
 	
 socket.on('newGame', (data) => {
 	game = new Game(data.gameID);
-	//game.init(data.gameID, data.username);
 	game.init();
 	game.showGame({name: data.username, gameID: data.gameID});
 });
@@ -145,7 +144,6 @@ socket.on('player1', (data) => {
 socket.on('player2', (data) => {
 	console.log('Player 2 Init');
 	game = new Game(data.gameID);
-	//game.init(data.gameID, data.username);
 	game.init();
 	game.setCurrentPlayer(PLAYER_1);
 	game.showGame({name: data.username, gameID: data.gameID});
@@ -158,6 +156,9 @@ socket.on('turnPlayed', (data) => {
 	game.setCurrentPlayer(data.player);
 	game.drawBoard(data.board);
 	console.log('Current Player Now: ' + data.player);
+	if (player.type == game.currentPlayer)
+		document.getElementById("column-" + String(data.column)).style.backgroundColor = (player.type == PLAYER_1) ? "yellow" : "red";
+	game.drawBoard(data.board);
 	player.turn = true;
 });
 
@@ -222,17 +223,24 @@ socket.on('clearBoard', (data) => {
 
 
 function handleClicks(col) {
+	clearColumnBG();
 	if (!game.gameOver && player.type == game.currentPlayer) {
 		//console.log('Player %d column selected: %s', currentPlayer, col.currentTarget.id);
-		//turn(col.currentTarget.id, currentPlayer);	
-		game.turn(col.currentTarget.id);	
-		
-		//socket.emit('col', {column : col.currentTarget.id, player: currentPlayer})
-		socket.emit('col', {column : col.currentTarget.id, player: player.type, gameID: game.getGameID()})
+		//game.turn(col.currentTarget.id);	
+		//socket.emit('col', {column : col.currentTarget.id, player: player.type, gameID: game.getGameID()})
+		var columnSelected = parseInt(col.currentTarget.id.split('-')[1]);
+		game.turn(columnSelected);
+		socket.emit('col', {column : columnSelected, player: player.type, gameID: game.getGameID()})		
 	} else if (game.getCurrentPlayer() !== 0) {
 		game.addMessage({message: 'Player '+((player.type == PLAYER_1) ? PLAYER_2 : PLAYER_1)+' Go. Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
 	} else {
 		game.addMessage({message: 'Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
+	}
+}
+
+function clearColumnBG() {
+	for (var i = 0; i < 9; i++) {
+		document.getElementById("column-" + String(i)).style.backgroundColor = "blue";
 	}
 }
 
