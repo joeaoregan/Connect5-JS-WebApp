@@ -22,7 +22,7 @@ document.querySelector('#existingBtn').addEventListener('click', username2Button
 class Player {
 	constructor(name, type) {
 		this.name = name;			// Players name
-		//this.opponent = "";			// Opponents name
+		this.opponent = "";			// Opponents name
 		this.type = type;
 		this.turn = false;
 	}
@@ -30,7 +30,6 @@ class Player {
 
 class Game {
 	constructor(gameID) {
-		//this.readyToPlay = false;
 		this.gameID = gameID;
 		this.board = board;	
 		this.winBoard = board;
@@ -41,12 +40,10 @@ class Game {
 	getCurrentPlayer() {return this.currentPlayer; }
 	setCurrentPlayer(player) { this.currentPlayer=player; }
 	getGameID() { return this.gameID; }
-	setReadyToPlay(ready) { this.readyToPlay = ready; }
 	setGameOver(gameOver) { this.gameOver=gameOver; }
 	getBoard() { return this.board; }
 	
 	setup(gameID) {
-		//this.readyToPlay = false;
 		this.gameID = gameID;
 		this.board = Array(ROWS).fill().map(() => Array(COLS).fill(0));	
 		this.winBoard = board;
@@ -56,6 +53,7 @@ class Game {
 	
 	//init(gameID, username) {
 	init() {
+		clearColumnBG();
 		//this.showGame({name: username, gameID: gameID});
 		//this.showGame({name: username, gameID: this.gameID});
 		//this.currentPlayer = 0;
@@ -78,12 +76,13 @@ class Game {
 					column: colID,
 					gameID: this.gameID
 				});
+				
+				console.log('Your Turn - column: ' + colID);	
+				player.turn = false;
 			}
 			
-			console.log('draw board after taking go');
-			this.drawBoard(this.board);			
-			player.turn = false;		
-			console.log('Your Turn - column: ' + colID);
+			//console.log('draw board after taking go');
+			this.drawBoard(this.board);
 		} 
 	}
 	
@@ -111,8 +110,17 @@ class Game {
 
 	showGame(data) {
 		document.getElementById("selectGame").style.display = "none";
-		document.getElementById("gameBoard").style.display = "inline";	
-		document.getElementById("username").innerText = "Player " + player.type + ": " + player.name;
+		document.getElementById("gameBoard").style.display = "inline";
+		document.getElementById("show-gameid").innerText = "Game: " + data.gameID;
+		
+		if (game.getCurrentPlayer() === 0) {
+			document.getElementById("username").innerText = "Player " + player.type + ": " + player.name;
+		}		
+		if (game.getCurrentPlayer() != 0 && player.type == PLAYER_1) {
+			document.getElementById("username").innerText = "Player 1: " + player.name + " Vs Player 2: " + player.opponent;
+		} else if (game.getCurrentPlayer() != 0 && player.type == PLAYER_2) {
+			document.getElementById("username").innerText = "Player 2: " + player.name + " Vs Player 1: " + player.opponent;
+		}
 		
 		if (!this.currentPlayer == PLAYER_1) {
 			document.getElementById("displayMessage").innerText = "Welcome "+ player.name + ". Player 2 must enter Game ID: \"" + data.gameID + "\" to join";
@@ -137,6 +145,9 @@ socket.on('newGame', (data) => {
 socket.on('player1', (data) => {
 	console.log('Player 1 Init');
 	game.setCurrentPlayer(PLAYER_1);
+	player.opponent = data.usernameP2;								// Set opponent name;
+	player.turn = true;
+	game.showGame({name: player.name, gameID: game.getGameID()});
 	game.drawBoard(game.getBoard());
 });
 
@@ -146,6 +157,7 @@ socket.on('player2', (data) => {
 	game = new Game(data.gameID);
 	game.init();
 	game.setCurrentPlayer(PLAYER_1);
+	player.opponent = data.usernameP1;								// Set opponent name;
 	game.showGame({name: data.username, gameID: data.gameID});
 	game.drawBoard(game.getBoard());
 });
@@ -154,7 +166,6 @@ socket.on('turnPlayed', (data) => {
 	console.log('turn played & board updated');	
 	game.board = data.board;
 	game.setCurrentPlayer(data.player);
-	game.drawBoard(data.board);
 	console.log('Current Player Now: ' + data.player);
 	if (player.type == game.currentPlayer)
 		document.getElementById("column-" + String(data.column)).style.backgroundColor = (player.type == PLAYER_1) ? "yellow" : "red";
@@ -162,26 +173,17 @@ socket.on('turnPlayed', (data) => {
 	player.turn = true;
 });
 
-
-
-
-
-
 socket.on('gameWon', (data) => {
 	console.log('Game Finished');
 	game.setGameOver(true);		
 	game.board = data.board;
-	//game.setCurrentPlayer(data.player);	
+	//game.setCurrentPlayer(data.player);
+	clearColumnBG();
 	game.drawBoard(data.board);
 	//socket.leave(data.room);
 	//game.init();
 	//game.setup(data.gameID);
 });
-
-
-
-
-
 
 socket.on('shutdownMsg', (data) => {
 	var waitTime = 5000; // 5 seconds
@@ -213,7 +215,6 @@ socket.on('shutdownMsg', (data) => {
 	
 });
 
-
 socket.on('clearBoard', (data) => {
 	resetGame();  // LOOP
 	game.drawBoard(game.getBoard());
@@ -221,20 +222,19 @@ socket.on('clearBoard', (data) => {
 });
 
 
-
 function handleClicks(col) {
 	clearColumnBG();
-	if (!game.gameOver && player.type == game.currentPlayer) {
-		//console.log('Player %d column selected: %s', currentPlayer, col.currentTarget.id);
-		//game.turn(col.currentTarget.id);	
-		//socket.emit('col', {column : col.currentTarget.id, player: player.type, gameID: game.getGameID()})
-		var columnSelected = parseInt(col.currentTarget.id.split('-')[1]);
-		game.turn(columnSelected);
-		socket.emit('col', {column : columnSelected, player: player.type, gameID: game.getGameID()})		
-	} else if (game.getCurrentPlayer() !== 0) {
-		game.addMessage({message: 'Player '+((player.type == PLAYER_1) ? PLAYER_2 : PLAYER_1)+' Go. Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
-	} else {
-		game.addMessage({message: 'Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
+	if (!game.gameOver) {
+		if (player.type == game.currentPlayer) {
+			console.log('Player %d column selected: %s', currentPlayer, col.currentTarget.id);
+			var columnSelected = parseInt(col.currentTarget.id.split('-')[1]);
+			game.turn(columnSelected);
+			socket.emit('col', {column : columnSelected, player: player.type, gameID: game.getGameID()})
+		} else if (game.getCurrentPlayer() !== 0) {
+			game.addMessage({message: 'Player '+((player.type == PLAYER_1) ? PLAYER_2 : PLAYER_1)+' Go. Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
+		} else {
+			game.addMessage({message: 'Please Wait For Player 2 To Connect!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
+		}
 	}
 }
 
@@ -244,42 +244,11 @@ function clearColumnBG() {
 	}
 }
 
-function username1Button() {
-	var username1 = document.getElementById("username1").value;
-	
-	if (!username1) {
-	  alert('Please Enter A Username To Play');
-	  return;
-	}
-	
-	socket.emit('create', { username: username1 });
-	player = new Player(username1, PLAYER_1);
-}
-
-function username2Button() {
-	var username2 = document.getElementById("username2").value;
-	var gameIDField = document.getElementById("gameID").value;
-	
-	if (!username2 || !gameIDField) {
-	  alert('Please Enter BOTH Username And Game ID');
-	  return;
-	}
-	
-	//console.log('Client (username2Button) - Username: ' + username2 + ' Game ID: ' + gameIDField);	
-	socket.emit('player2join', { username: username2, gameID: gameIDField });
-	player = new Player(username2, PLAYER_2);
-	//game.setCurrentPlayer(PLAYER_1);
-}
-
 function startGame() {
 	console.log('Start New Game');
-	//socket.emit('newGame', { username: data.username, gameID: `game-${games}` });
 	game = new Game(game.gameID);
 	game.init();
 }
-
-
-
 
 /*
 	When reset button is pressed
@@ -296,9 +265,33 @@ function resetGame() {
 	board = Array(6).fill().map(() => Array(9).fill(0));
 		
 	game.init();
-	game.setup(game.gameID);
-	
+	game.setup(game.gameID);	
 	game.drawBoard(game.getBoard());
+}
+
+function username1Button() {
+	var username1 = document.getElementById("username1").value;
+	
+	if (!username1) {
+	  alert('Please Enter A Username To Play');
+	  return;
+	}
+	
+	socket.emit('create', { username: username1 });
+	player = new Player(username1, PLAYER_1);
+}
+
+function username2Button() {
+	var username2 = document.getElementById("username2").value;
+	var gameIDField = document.getElementById("gameID").value.toLowerCase();
+	
+	if (!username2 || !gameIDField) {
+	  alert('Please Enter BOTH Username And Game ID');
+	  return;
+	}
+	
+	socket.emit('player2join', { username: username2, gameID: gameIDField });
+	player = new Player(username2, PLAYER_2);
 }
 
 function resetGameButton() {
@@ -306,13 +299,7 @@ function resetGameButton() {
 	socket.emit('resetGame', {player: player.name, gameID: game.getGameID()});
 }
 
-
-
-
 function leaveGameButton() {
-	//var pl = player.name;
-	//var gID = game.getGameID();
 	socket.emit('leaveGame', {player: player.name, gameID: game.getGameID()});
-	location.reload();
-	//console.log('name: '+pl+' Game ID: '+gID);
+	location.reload(true);
 }

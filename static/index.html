@@ -9,14 +9,14 @@
 
 	<body>
 		<h1>Connect 5</h1>
-		<h2>Joe O'Regan</h2>
+		<h2>by Joe O'Regan</h2>
 		
 		<div class="selectGame" id="selectGame">		
 			<div>
 				<h3>Play A Game</h3>
 				
 				<p><b>Player 1:</b> Enter Username and select "New Game"</p>
-				<p><b>Player 2:</b> Enter Username and Game ID. Then Select "Existing Game"</p>
+				<p><b>Player 2:</b> Enter Username and Game ID from Player 1. Then Select "Existing Game"</p>
 			</div>
 			
 			<h4>Create a new Game</h4>
@@ -31,9 +31,9 @@
 			<input type="text" id="gameID" placeholder="Game To Join" required>
 			<button class="button" id="existingBtn">Join Game</button>
 		</div>
-		<br><br>		
 			
 		<div class="gameBoard" id="gameBoard" align="center" style="display: none;">
+			<h2 id="show-gameid"></h2>
 			<h3 id="username"></h3>
 			<p id="displayMessage"></p>
 			

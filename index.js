@@ -18,7 +18,7 @@ const CONNECT = 5, ROWS = 6, COLS = 9;
 const PLAYER_1 = 1, PLAYER_2 = 2;
 
 var gamesPlayed = 0;
-var games = new Array();						// Array of games
+var games = [];									// Array of games
 
 class Game {
 	constructor(gameID) {
@@ -57,39 +57,17 @@ io.on('connection', (socket) => {
 		
     socket.on('create', (data) => {
         socket.join(`game-${++gamesPlayed}`);															// subscribe to a specific channel (game), join a room
-//		games[gamesPlayed] = new Game(`game-${gamesPlayed}`);											// Create a game with an increment of the number of games
  		games[gamesPlayed] = new Game(gamesPlayed);														// Create a game with an increment of the number of games
- 		games[gamesPlayed].setPlayer1Name(data.username);												// Set Player 1 username
-				
+ 		games[gamesPlayed].setPlayer1Name(data.username);												// Set Player 1 username				
 		console.log('player 1 name set ');
 						
 		socket.emit('newGame', { username: data.username, gameID: `game-${gamesPlayed}` });
 		console.log('Game-'+gamesPlayed+' created by player 1: '+data.username+'. Waiting on Player 2');// Log on server
     });
 	
-	socket.on('col', (data) => {
-		index = parseInt(data.gameID.split('-')[1]);				
-		if (data.player === games[index].getCurrentPlayer()) {
-			checkCol(data.column, index);																// check for each room
-			checkWin(games[index].getCurrentPlayer(), parseInt(data.gameID.split('-')[1]));					
-			changePlayer(index); 																		// Move complete, change the active player
-			
-			io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
-				board: games[index].getBoard(),
-				column: data.column,
-				gameID: data.gameID,																	// data.gameID = room
-				player: games[index].getCurrentPlayer()
-			});			
-		} else {
-			console.log("Not Your Turn Player %s!", data.player);
-			
-			/* NOTIFY THE PLAYER IT IS NOT THEIR TURN --- HTML */
-		}	
-	});
-	
     socket.on('player2join', function (data) {
-        var game = io.nsps['/'].adapter.rooms[data.gameID];		
-		console.log('player2join gameID ' + data.gameID + " username " + data.username);
+        var game = io.nsps['/'].adapter.rooms[data.gameID];
+		//console.log('player2join gameID ' + data.gameID + " username " + data.username);
 		
         if (game && game.length === 1) {
 			console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);
@@ -98,40 +76,45 @@ io.on('connection', (socket) => {
 			games[parseInt(data.gameID.split('-')[1])].setPlayer2Name(data.username);					// Set Player 2 username
 			games[parseInt(data.gameID.split('-')[1])].setCurrentPlayer(PLAYER_1);						// Set the first turn to player 1
 			
-            socket.broadcast.to(data.gameID).emit('player1', {});
-            socket.emit('player2', { username: data.username, gameID: data.gameID });					// player 2 username
+            //socket.broadcast.to(data.gameID).emit('player1', {});
+            socket.broadcast.to(data.gameID).emit('player1', {usernameP2: data.username});
+            //socket.emit('player2', { username: data.username, gameID: data.gameID });					// player 2 username
+            socket.emit('player2', { username: data.username, usernameP1: games[parseInt(data.gameID.split('-')[1])].getPlayer1Name(), gameID: data.gameID });	// SEND: player 2 username, player 1 username, gameID
         } else {
             socket.emit('err', { message: 'This game is already full' });
         }
     });
+	
+	socket.on('col', (data) => {
+		index = parseInt(data.gameID.split('-')[1]);
+		
+		if (data.player === games[index].getCurrentPlayer()) {
+			//if (checkCol(data.column, index)) {														// check for each room
+			checkCol(data.column, index, data.gameID);													// check for each room
+			//checkWin(games[index].getCurrentPlayer(), parseInt(data.gameID.split('-')[1]));					
+			//changePlayer(index); 																		// Move complete, change the active player
+			
+			io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
+				board: games[index].getBoard(),
+				column: data.column,
+				gameID: data.gameID,																	// data.gameID = room
+				player: games[index].getCurrentPlayer()
+			});
+		} else {
+			console.log("Not Your Turn Player %s!", data.player);
+			
+			/* NOTIFY THE PLAYER IT IS NOT THEIR TURN --- HTML */
+		}	
+	});
 
     socket.on('gameOver', (data) => {
         socket.broadcast.to(data.gameID).emit('gameEnd', data);
     });
 	
-	
-	
-	
-	
-	
-	
 	socket.on('resetGame', (data) => {
 		console.log('\x1b[31m*** ' + data.gameID.toUpperCase() + ' RESET ***\x1b[0m');
 		console.log('Game: '+data.gameID+' Reset by: '+data.player);
-		
-		
-		//games[parseInt(data.gameID.split('-')[1])].setBoard(Array(6).fill().map(() => Array(9).fill(0)));		
-		//games[parseInt(data.gameID.split('-')[1])].setCurrentPlayer(PLAYER_1);
-		
-		//game.gameOver();
-		//games[parseInt(data.gameID.split('-')[1])].setGameOver(false);
 		games[parseInt(data.gameID.split('-')[1])].resetGame();
-		
-		//game.set5InARow(Array(10).fill(0));
-		
-		
-		
-		//socket.emit('clearBoard', {player: data.player, gameID: data.gameID});
         socket.broadcast.to(data.gameID).emit('clearBoard', {player: data.player, gameID: data.gameID});		
 	});
 	
@@ -150,10 +133,10 @@ displayBoard(Array(6).fill().map(() => Array(9).fill(0)),"");					// Show empty 
 console.log("Server running at http://localhost: " + port);
 
 
-function checkCol(col, index) {
+function checkCol(col, index, gameID) {
 	var cb = games[index].getBoard();		// get the board
 	console.log('game-'+index);
-	console.log('Check Column '+col+' For Player '  + games[index].getCurrentPlayer());	
+	console.log('Check Column '+(col+1)+' For Player '  + games[index].getCurrentPlayer());			// show column number as displayed in console
 	
 	if (cb[0][col] != 0) {
 		console.log('\x1b[31mError:\x1b[0m Column %s is full!', col);
@@ -167,6 +150,9 @@ function checkCol(col, index) {
 		games[index].setBoard(cb);			// store the board
 		displayBoard(cb, index);
 		cb = null;
+		
+		checkWin(games[index].getCurrentPlayer(), parseInt(gameID.split('-')[1]));					
+		changePlayer(index); 																		// Move complete, change the active player
 	}
 }
 
@@ -182,7 +168,8 @@ function checkWin(player, index) {
 			if (board[row][col] == player && board[row + 1][col - 1] == player && board[row + 2][col - 2] == player
 					&& board[row + 3][col - 3] == player && board[row + 4][col - 4] == player) {
 				win = true;
-				games[index].set5InARow(new Array(row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4)); // Highlight winning move
+				//games[index].set5InARow(new Array(row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4)); // Highlight winning move
+				games[index].set5InARow([row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4]); // Highlight winning move
 				break;
 			}
 		}
@@ -193,7 +180,7 @@ function checkWin(player, index) {
 				if (board[row][col] == player && board[row + 1][col + 1] == player && board[row + 2][col + 2] == player
 						&& board[row + 3][col + 3] == player && board[row + 4][col + 4] == player) {
 					win = true;
-					games[index].set5InARow(new Array(row,col,row+1,col+1,row+2,col+2,row+3,col+3,row+4,col+4));
+					games[index].set5InARow([row,col,row+1,col+1,row+2,col+2,row+3,col+3,row+4,col+4]);
 					break;
 				}
 			}
@@ -208,7 +195,7 @@ function checkWin(player, index) {
 			if (board[row][col] == player && board[row][col + 1] == player && board[row][col + 2] == player
 					&& board[row][col + 3] == player && board[row][col + 4] == player) {
 				win = true;
-				games[index].set5InARow(new Array(row,col,row,col+1,row,col+2,row,col+3,row,col+4));
+				games[index].set5InARow([row,col,row,col+1,row,col+2,row,col+3,row,col+4]);
 				break;
 			}
 		}
@@ -221,7 +208,7 @@ function checkWin(player, index) {
 			if (board[row][col] == player && board[row + 1][col] == player && board[row + 2][col] == player
 					&& board[row + 3][col] == player && board[row + 4][col] == player) {
 				win = true;
-				games[index].set5InARow(new Array(row,col,row+1,col,row+2,col,row+3,col,row+4,col));
+				games[index].set5InARow([row,col,row+1,col,row+2,col,row+3,col,row+4,col]);
 				break;
 			}
 		}
@@ -237,7 +224,7 @@ function checkWin(player, index) {
 function displayBoard(board, game) {
 	var b = board;
 	if (game == "") {
-	console.log('\n  \x1b[36m%s\x1b[0m %s', 'Connect5', 'by Joe O\'Regan');  //cyan
+		console.log('\n  \x1b[36m%s\x1b[0m %s', 'Connect5', 'by Joe O\'Regan');  //cyan
 	} else {
 		console.log('\n  \x1b[36m%s\x1b[0m %s', 'Game: ', game);  //cyan
 	}
