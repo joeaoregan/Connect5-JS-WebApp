@@ -4,6 +4,9 @@
 # Ignore this
 
 /node_modules/
+npm-debug.log
+.DS_Store
+/.env
 *.bak
 
 # Ignore web
