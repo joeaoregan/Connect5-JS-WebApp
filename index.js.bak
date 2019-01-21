@@ -128,20 +128,11 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', function() {
 		console.log('Player  has disconnected');
 	});
-	
-	/*
-		Chat
-	*/
-	socket.on('message', (data) => {
-		console.log('MSG - ' + data.gameID + ' ' + data.username + ': ' + data.msg);
-		//socket.broadcast.emit('message', message);	// broadcast to everyone except this
-		socket.broadcast.to(data.gameID).emit('message', data);	// broadcast to everyone except this
-	});
 });
 
 server.listen(port);
-console.log("Server running at http://localhost: " + port);
 displayBoard(Array(6).fill().map(() => Array(9).fill(0)),"");					// Show empty board to begin with
+console.log("Server running at http://localhost: " + port);
 
 
 function checkCol(col, index, gameID) {

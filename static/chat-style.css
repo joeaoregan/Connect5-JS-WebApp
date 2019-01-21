@@ -1,0 +1,49 @@
+.chatdiv {
+  background-color: white;
+  width: 770px;
+  height: 250px;
+  border: 1px solid black;
+  border-radius:10px;
+}
+
+.msgdiv {
+  background-color: white;
+  width: 100%;
+  height: 70%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.message {
+  border-radius: 10px;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    width: 75%;
+  border-radius: 10px;
+}
+
+.left {
+	background-color: lightgrey;
+	text-align: left;
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+.right {
+	background-color: lightblue;
+	text-align: right;
+    margin-left: 15%;
+}
+
+.input {
+	text-align: right;
+	padding-right: 5%;
+	width: 95%;
+}
+
+.inputTxt {
+	width: 75%;
+}
+
+.inputBtn {
+	width: 15%;
+}
