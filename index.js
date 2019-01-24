@@ -92,21 +92,31 @@ io.on('connection', (socket) => {
 		
 		if (data.player === games[index].getCurrentPlayer()) {
 			//if (checkCol(data.column, index)) {														// check for each room
-			checkCol(data.column, index, data.gameID);													// check for each room
+			var goodMove = checkCol(data.column, index, data.gameID);									// check for each room
 			//checkWin(games[index].getCurrentPlayer(), parseInt(data.gameID.split('-')[1]));					
 			//changePlayer(index); 																		// Move complete, change the active player
 			
-			io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
-				board: games[index].getBoard(),
-				column: data.column,
-				gameID: data.gameID,																	// data.gameID = room
-				player: games[index].getCurrentPlayer()
-			});
+			if (goodMove) {
+				io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
+					board: games[index].getBoard(),
+					column: data.column,
+					gameID: data.gameID,																// data.gameID = room
+					player: games[index].getCurrentPlayer()
+				});
+			}
 		} else {
 			console.log("Not Your Turn Player %s!", data.player);
-			
+			goodMove = false;
 			/* NOTIFY THE PLAYER IT IS NOT THEIR TURN --- HTML */
-		}	
+		}
+		
+		if (!goodMove) {			
+			io.to(data.gameID).emit('badMove', {
+				column: data.column, 
+				gameID: data.gameID, 
+				player: games[index].getCurrentPlayer()				
+			});
+		}
 	});
 
     socket.on('gameOver', (data) => {
@@ -165,7 +175,10 @@ function checkCol(col, index, gameID) {
 		
 		checkWin(games[index].getCurrentPlayer(), parseInt(gameID.split('-')[1]));					
 		changePlayer(index); 																		// Move complete, change the active player
+		return true;
 	}
+	
+	return false;	// column is full
 }
 
 function checkWin(player, index) {

@@ -11,6 +11,8 @@ var board = Array(6).fill().map(() => Array(9).fill(0));
 var winBoard;
 var player, game;
 
+var badMoveSnd, gameOverSnd;
+
 const columns = document.querySelectorAll('.column');
 var cols=[];
 for (var i = 0; i < 9; i++) {
@@ -52,6 +54,8 @@ class Game {
 	}
 	
 	init() {
+		badMoveSnd = new sound("BadMove.mp3");
+		gameOverSnd = new sound("Win.mp3");
 		clearColumnBG();
 		console.log('\x1b[36mStart Game!!! ' + this.gameID);
 		this.drawBoard(this.board);													// Reset: Draw the reset board
@@ -166,7 +170,13 @@ socket.on('turnPlayed', (data) => {
 	player.turn = true;
 });
 
+
+socket.on('badMove', (data) => {
+	badMoveSnd.play();
+});
+
 socket.on('gameWon', (data) => {
+	gameOverSnd.play();
 	console.log('Game Finished');
 	game.setGameOver(true);		
 	game.board = data.board;
@@ -211,6 +221,7 @@ function handleClicks(col) {
 			socket.emit('col', {column : columnSelected, player: player.type, gameID: game.getGameID()})
 		} else if (game.getCurrentPlayer() !== 0) {
 			game.addMessage({message: 'Player '+((player.type == PLAYER_1) ? PLAYER_2 : PLAYER_1)+' Go. Please Wait For Your Turn!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
+			badMoveSnd.play();
 		} else {
 			game.addMessage({message: 'Please Wait For Player 2 To Connect!', colour: ((player.type == PLAYER_1) ? 'red' : 'orange')});
 		}
@@ -295,4 +306,21 @@ function enterPressed(textField, buttonName) {
 			document.getElementById(buttonName).click();
 		}
 	});
+}
+
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  
+  this.play = function(){
+    this.sound.play();
+  }
+  
+  this.stop = function(){
+    this.sound.pause();
+  }
 }
