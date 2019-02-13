@@ -1,4 +1,5 @@
 # Connect 5
+## Joe O'Regan
 
 5 in a row game using JavaScript and Node.js
 
@@ -10,6 +11,13 @@
 * Different games can take place at the same time.
 * Opponent move is highlighted
 * Added chat feature
+
+##### Other Versions
+
+* [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
+* [Connect 5 AWT GUI](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui)
+* [Connect 5 Python Console](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console)
+* [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
 
 ##### Play the game:
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
