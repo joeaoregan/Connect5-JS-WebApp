@@ -14,7 +14,11 @@
     "socket.io": "^2.2.0"
   },
   "repository": {
-  "type" : "git",
-  "url" : "https://github.com/joeaoregan/Connect5-JS.git"
-  }
+    "type": "git",
+    "url": "git+https://github.com/joeaoregan/Connect5-JS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joeaoregan/Connect5-JS/issues"
+  },
+  "homepage": "https://github.com/joeaoregan/Connect5-JS#readme"
 }

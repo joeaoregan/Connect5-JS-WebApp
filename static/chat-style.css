@@ -1,9 +1,10 @@
 .chatdiv {
-	width: 770px;
+	width: 720px;
 	height: 250px;
 	border: 2px solid black;
 	border-radius:10px;
 	text-align: center;
+	padding: 1%;
 }
 
 .hidechat {
@@ -17,24 +18,12 @@
 	overflow: scroll;
 	overflow-x: hidden;
 }
+
 .message {
 	padding-left: 2.5%;
 	padding-right: 2.5%;
 	width: 75%;
 	border-radius: 10px;
-}
-
-.left {
-	background-color: lightgrey;
-	text-align: left;
-    margin-left: 5%;
-    margin-right: 10%;
-}
-
-.right {
-	background-color: lightblue;
-	text-align: right;
-    margin-left: 15%;
 }
 
 .input {
@@ -44,9 +33,34 @@
 }
 
 .inputTxt {
-	width: 75%;
+	margin-top: 5px;
+	width: 81%;
 }
 
 .inputBtn {
 	width: 15%;
+}
+
+.chat {
+	border-radius:12px;
+	padding: 5px;
+	display: inline-block;
+}
+
+.left-outer {
+	text-align: left;
+}
+
+.left-inner {
+	margin-right: 10%;
+	background-color: lightgrey;
+}
+
+.right-outer {
+	text-align: right;
+}
+
+.right-inner {
+	margin-left: 10%;
+	background-color: lightblue;
 }

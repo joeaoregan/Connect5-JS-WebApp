@@ -20,6 +20,14 @@ td {
 	border-radius: 35px;
 }
 
+.linkTbl {
+	margin: auto;
+	width: 720px;
+}
+.linkTbl:td {
+	width: 250px;
+}
+
 .title, .main, .chatdiv, .links {
 	margin: auto;
 	width: 90%;
@@ -54,7 +62,7 @@ td {
 }
 
 .col0, .col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8 {
-  background-image: linear-gradient(to bottom right, white, grey);
+	background-image: linear-gradient(to bottom right, white, grey);
 }
 
 input[type=text], .button {
@@ -67,7 +75,6 @@ input[type=text], .button {
 .button {
 	font-weight: bold;
 	color: white;
-	border-radius: 15px;
 	background-color: grey;
 	cursor: pointer;
 }
@@ -81,8 +88,8 @@ input[type=text], .button {
 }
 
 .game {
-  max-width: 720px;
-  margin: auto;
+	max-width: 720px;
+	margin: auto;
 }
 
 .links {
@@ -101,4 +108,46 @@ a {
 table.frame {
     margin-left:auto; 
     margin-right:auto;
+}
+
+.dropbtn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown-content button {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
 }

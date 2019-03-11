@@ -19,8 +19,8 @@
 			<div>
 				<h3>Play A Game</h3>
 				
-				<p><b>Player 1:</b> Enter Username and select "New Game"</p>
-				<p><b>Player 2:</b> Enter Username and Game ID from Player 1. Then Select "Existing Game"</p>
+				<p><b>Player 1:</b> Enter Username and select "Create Game" or press "Enter"</p>
+				<p><b>Player 2:</b> Enter Username and Game ID from Player 1. Then Select "Join Game" or press "Enter"</p>
 			</div>
 			
 			<h4>Create a new Game</h4>
@@ -33,6 +33,7 @@
 			<h4>Join an existing game</h4>
 			<input type="text" id="username2" placeholder="Username" required>
 			<input type="text" id="gameID" placeholder="Game To Join" required>
+			
 			<button class="button" id="existingBtn">Join Game</button>
 		</div>
 			
@@ -148,25 +149,39 @@
 	</div>
 	<br>
 	
-	<div class="hidechat" id="hidechat">
-		<div class="chatdiv" id="chatdiv">
+	<div class="hidechat" id="hidechat">		
+		<div class="chatdiv" id="chatdiv">			
+			<div class="msgdiv" id = "msgList"></div>
+			
 			<div class="input">
 				<input type="text" id="messagetext" placeholder="Write here..." class="inputTxt"/>
 				<button id="inputBtn" class="button inputBtn">Send</button>
+				<br>
 			</div>
-			
-			<div class="msgdiv" id = "msgList">
-			</div>
-			<br>
 		</div>
-		<br>
 	</div>
+	<br>
 	
 	<div class="links">			
 		<h2>Links</h2>
-		<a href="https://github.com/joeaoregan/Connect5-JS" target="_blank">Connect 5 GitHub</a><br>
-		<a href="https://connect5-jor.herokuapp.com/" target="_blank">Play Online: Connect 5 Heroku</a>
-		<br><br>
+		
+		<table class="linkTbl">
+			<tr><th>Play Online</th><th>GitHub</th></tr>
+			<tr>
+				<td>
+					<a href="https://connect5-jor.herokuapp.com/" target="_blank">Connect 5 Heroku</a><br>
+					<a href="https://chat-jor.herokuapp.com/" target="_blank">Chat Example App</a>
+				</td>
+				<td>
+					<a href="https://github.com/joeaoregan/Connect5-JS" target="_blank">JavaScript (This App)</a><br>
+					<a href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text" target="_blank">Java Console</a><br>
+					<a href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui" target="_blank">Java GUI</a><br>
+					<a href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console" target="_blank">Python Console</a><br>
+					<a href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI" target="_blank">Python GUI</a>
+				</td>
+			</tr>
+		</table>
+		<br>
 	</div>	
 	
 	<script src="/socket.io/socket.io.js"></script>
