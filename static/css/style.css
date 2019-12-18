@@ -8,6 +8,17 @@ body {
 	text-align: center;
 }
 
+.body-section {
+	padding: 20px;
+	margin: 20px 10px;
+	border-radius: 15px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.selectGame{
+	min-height: 600px;
+}
+
 td {
 	height: 70px;
 	width: 80px;
@@ -24,11 +35,12 @@ td {
 	margin: auto;
 	width: 720px;
 }
+
 .linkTbl:td {
 	width: 250px;
 }
 
-.title, .main, .chatdiv, .links {
+.title, .main, .chatdiv, .footer {
 	margin: auto;
 	width: 90%;
 	border-radius: 10px;
@@ -41,7 +53,7 @@ td {
 	color: white
 }
 
-.gameBoard { 
+.gameBoard {
 	text-align: center;
 	display: none;
 }
@@ -67,9 +79,9 @@ td {
 
 input[type=text], .button {
 	font-size: 125%;
-	padding: 8px 8px 8px 8px;
-	height: 50px;
+	padding: 10px;
 	border-radius: 15px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
 .button {
@@ -92,7 +104,8 @@ input[type=text], .button {
 	margin: auto;
 }
 
-.links {
+.footer {
+	margin-top: 50px;
 	background-color: dimgrey;
 	color: white;
 }
@@ -106,8 +119,8 @@ a {
 }
 
 table.frame {
-    margin-left:auto; 
-    margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .dropbtn {
@@ -129,7 +142,7 @@ table.frame {
 	position: absolute;
 	background-color: #f9f9f9;
 	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
 }
 
@@ -149,5 +162,5 @@ table.frame {
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+	background-color: #3e8e41;
 }

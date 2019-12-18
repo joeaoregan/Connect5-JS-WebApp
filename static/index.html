@@ -3,44 +3,67 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Connect 5</title>
-		<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="chat-style.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/chat-style.css">
 		<link rel="shortcut icon" href="favicon.ico">
 	</head>
 
 	<body>
-	<div class="title">
+	<div class="title body-section">
 		<h1>Connect 5</h1>
 		<h2>by Joe O'Regan</h2>
 	</div>
 	
 	<div class="main">
 		<div class="selectGame" id="selectGame">		
-			<div>
-				<h3>Play A Game</h3>
+			<div class="body-section">
+				<h2>Play A Game</h2>
 				
 				<p><b>Player 1:</b> Enter Username and select "Create Game" or press "Enter"</p>
 				<p><b>Player 2:</b> Enter Username and Game ID from Player 1. Then Select "Join Game" or press "Enter"</p>
 			</div>
+				
+			<div class="body-section">
+				<h3>Create a new Game</h3>
+				
+				<input type="text" id="username1" placeholder="Username" required autofocus>
+				<button class="button" id="newGameBtn">Create Game</button>				
+			</div>
+	
+			<div class="body-section">
+				<h3>Join an existing game</h3>
+
+				<input type="text" id="username2" placeholder="Username" required>
+				<input type="text" id="gameID" placeholder="Game To Join" required>
 			
-			<h4>Create a new Game</h4>
+				<!--div class="dropdown">
+				<button class="dropbtn">Select Game</button>
+				<div class="dropdown-content">
+				<button id="existingBtn1">Game-1</button>
+				<button id="existingBtn2">Game-2</button>
+				<button id="existingBtn3">Game-3</button..>
+				<!--a href="#">Link 1</a>
+				<a href="#">Link 2</a>
+				<a href="#">Link 3</a-->
+				<!--/div>
+				</div-->
+				
+				<!--label for="country">Country</label>
+				<select id="country" name="country">
+				<option value="australia">Australia</option>
+				<option value="canada">Canada</option>
+				<option value="usa">USA</option>
+				</select-->
 			
-			<input type="text" id="username1" placeholder="Username" required autofocus>
-			<button class="button" id="newGameBtn">Create Game</button>				
-			
-			<br><br>
-			
-			<h4>Join an existing game</h4>
-			<input type="text" id="username2" placeholder="Username" required>
-			<input type="text" id="gameID" placeholder="Game To Join" required>
-			
-			<button class="button" id="existingBtn">Join Game</button>
+				<button class="button" id="existingBtn">Join Game</button>
+			</div>
 		</div>
-			
+				
 		<div class="gameBoard" id="gameBoard">
-		<br>
+			<br>
 			<h2 id="show-gameid"></h2>
 			<h3 id="username"></h3>
+
 			<p id="displayMessage"></p>
 			
 			<table class="frame" id="frame2">
@@ -147,22 +170,19 @@
 		</div>
 		<br> 
 	</div>
-	<br>
 	
 	<div class="hidechat" id="hidechat">		
 		<div class="chatdiv" id="chatdiv">			
 			<div class="msgdiv" id = "msgList"></div>
 			
-			<div class="input">
+			<div class="input-control">
 				<input type="text" id="messagetext" placeholder="Write here..." class="inputTxt"/>
 				<button id="inputBtn" class="button inputBtn">Send</button>
-				<br>
 			</div>
 		</div>
 	</div>
-	<br>
 	
-	<div class="links">			
+	<div class="footer">			
 		<h2>Links</h2>
 		
 		<table class="linkTbl">

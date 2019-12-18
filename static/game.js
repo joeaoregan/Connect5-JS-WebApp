@@ -54,8 +54,8 @@ class Game {
 	}
 	
 	init() {
-		badMoveSnd = new sound("BadMove.mp3");
-		gameOverSnd = new sound("Win.mp3");
+		badMoveSnd = new sound("audio/BadMove.mp3");
+		gameOverSnd = new sound("audio/Win.mp3");
 		clearColumnBG();
 		console.log('\x1b[36mStart Game!!! ' + this.gameID);
 		this.drawBoard(this.board);													// Reset: Draw the reset board

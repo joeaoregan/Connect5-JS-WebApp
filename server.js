@@ -95,7 +95,7 @@ io.on('connection', (socket) => {
 			var goodMove = checkCol(data.column, index, data.gameID);									// check for each room
 			//checkWin(games[index].getCurrentPlayer(), parseInt(data.gameID.split('-')[1]));					
 			//changePlayer(index); 																		// Move complete, change the active player
-			
+						
 			if (goodMove) {
 				io.to(data.gameID).emit((games[index].getGameOver()) ? 'gameWon' : 'turnPlayed', {
 					board: games[index].getBoard(),
@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
 			}
 		} else {
 			console.log("Not Your Turn Player %s!", data.player);
-			goodMove = false;
+			goodMove = false;			
 			/* NOTIFY THE PLAYER IT IS NOT THEIR TURN --- HTML */
 		}
 		

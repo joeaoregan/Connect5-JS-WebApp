@@ -2,7 +2,7 @@
 	width: 720px;
 	height: 250px;
 	border: 2px solid black;
-	border-radius:10px;
+	border-radius: 10px;
 	text-align: center;
 	padding: 1%;
 }
@@ -23,26 +23,24 @@
 	padding-left: 2.5%;
 	padding-right: 2.5%;
 	width: 75%;
-	border-radius: 10px;
+	border-radius: 12px;
 }
 
-.input {
+.input-control {
 	text-align: right;
 	padding-right: 5%;
-	width: 95%;
+	width: 97%;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .inputTxt {
 	margin-top: 5px;
-	width: 81%;
-}
-
-.inputBtn {
-	width: 15%;
+	width: 75%;
 }
 
 .chat {
-	border-radius:12px;
+	border-radius: 12px;
 	padding: 5px;
 	display: inline-block;
 }
@@ -63,4 +61,34 @@
 .right-inner {
 	margin-left: 10%;
 	background-color: lightblue;
+}
+
+
+/* Chat tooltip */
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext, .tooltip .tooltiptext-user {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+}
+
+.tooltip .tooltiptext-user {	
+	right: 50px;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
 }
