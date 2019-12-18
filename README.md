@@ -1,7 +1,7 @@
 # Connect 5
 ## Joe O'Regan
 
-5 in a row game using JavaScript and Node.js
+5 in a row game using JavaScript and Node.js. [Play Now.](https://connect5-jor.herokuapp.com/)
 
 ## Connect 5
 
@@ -20,9 +20,9 @@
 * [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
 
 ##### Play the game:
+* [Heroku Multiplayer (WORKING)](https://connect5-jor.herokuapp.com/)
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
 * [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
-* [Heroku Multiplayer (WORKING)](https://connect5-jor.herokuapp.com/)
 
 ### Instructions
 
@@ -46,7 +46,7 @@ npm install --save express socket.io
 ```
 node server.js
 ```
-5. navigate to [http://localhost:5000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
+5. navigate to [http://localhost:3000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
 
 ### Links / References
