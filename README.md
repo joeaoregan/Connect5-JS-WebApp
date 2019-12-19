@@ -6,11 +6,13 @@
 ## Connect 5
 
 ![Connect 5](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png "Connect 5")
+![Connect 5: Tooltip](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png "Connect 5: Tooltip")
 
 * Single device and multiplayer / multiple device communication working (See Heroku link).
 * Different games can take place at the same time.
 * Opponent move is highlighted
 * Added chat feature
+* Added tooltip to indicate when messages were sent/received
 
 ##### Other Versions
 
@@ -32,6 +34,10 @@
 * Player 2 enters game ID from Player 1 to join game
 * Player 1 goes first
 * Winning 5-in-a-row is highlighted when game is won
+* Head-to-head scores are kept
+* If Player 1 (Host) leaves a room the game returns to start screen for both players
+* If Player 2 (Challenger) leaves room, game resets and another player can be invited
+* Press reset to reset the game at any time, or restart when game has been won
 
 ##### Install
 
@@ -45,6 +51,10 @@ npm install --save express socket.io
 4. Run the server
 ```
 node server.js
+```
+###### OR
+```
+npm start
 ```
 5. navigate to [http://localhost:3000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
