@@ -15,7 +15,7 @@ body {
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.selectGame{
+.selectGame {
 	min-height: 600px;
 }
 
@@ -64,6 +64,7 @@ td {
 
 .column:hover {
 	background-color: orange;
+	/* Highlight the column when the mouse is over it */
 	background-image: linear-gradient(yellow, orange);
 }
 
