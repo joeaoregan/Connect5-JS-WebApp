@@ -30,7 +30,9 @@ class Game {
 	constructor(gameID) {
 		this.gameID = gameID;
 		this.currentPlayer = 0;
-		this.winner = 0;
+		this.winner = 0; // Last game winner
+		this.played = 0; // number of games played
+		this.p1Wins = 0; // Number of games won by player 1
 	}
 
 	init(movesFirst) {
@@ -47,6 +49,7 @@ class Game {
 				columns[i].addEventListener('click', handleClicks, false);
 			}
 		}
+		hudUpdateWins(); // Display the head to head wins
 	}
 
 	turn(colID) {
@@ -73,7 +76,7 @@ class Game {
 				(this.currentPlayer == PLAYER_1) ? "Player 1 Go" : "Player 2 Go";
 		} else {
 			document.getElementById("player_info").innerText = "Player " + this.currentPlayer + " Is The Winner!";
-			this.winner=this.currentPlayer;
+			this.winner = this.currentPlayer;
 		}
 		document.getElementById("player_info").style.color = (this.currentPlayer == PLAYER_1) ? "red" : "orange";
 	}
@@ -99,6 +102,11 @@ class Game {
 		document.getElementById("player_info").innerText = data.message;
 		document.getElementById("player_info").style.color = data.colour;
 	}
+}
+
+function hudUpdateWins() {
+	console.log("games played: " + game.played + " p1Wins: " + game.p1Wins)
+	document.getElementById("winsID").innerText = "Player 1 " + game.p1Wins + "-" + (game.played - game.p1Wins) + " Player 2";
 }
 
 socket.on('newGame', (data) => {
@@ -166,8 +174,14 @@ socket.on('shutdownMsg', (data) => {
 });
 
 socket.on('clearBoard', (data) => {
-	resetGame();  // LOOP
-	game.addMessage({ message: 'Game Reset By ' + data.player + '!!! Player '+ data.winner +' To Restart', colour: 'blue' });
+	resetGame();  // LOOP // console.log('*** clearBoard ***')
+	game.addMessage({ message: 'Game Reset By ' + data.player + '!!! Player ' + data.winner + ' To Restart', colour: 'blue' });
+});
+
+socket.on('updateWins', (data) => {
+	game.played = data.gamesFinished; // console.log('*** UPDATE WINS ***')
+	game.p1Wins = data.player1wins; // console.log("games completed: "+data.gamesFinished);
+	hudUpdateWins(); // Show the wins
 });
 
 function handleClicks(col) {
@@ -198,11 +212,11 @@ function clearColumnBG() {
 // When reset button is pressed
 function resetGame() {
 	console.log('*** GAME RESET ***');
-	game.init((game.finished)?game.winner:PLAYER_1); // Game resets, Player 1 makes first move
+	game.init((game.finished) ? game.winner : PLAYER_1); // Game resets, Player 1 makes first move
 }
 
 function resetGameButton() {
-	console.log('*** resetGameButton() *** winner: '+ game.winner)
+	console.log('*** resetGameButton() *** winner: ' + game.winner)
 	socket.emit('resetGame', { player: player.name, gameID: game.gameID, winner: game.winner });
 	resetGame();
 }

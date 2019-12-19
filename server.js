@@ -29,6 +29,8 @@ class Game {
 		this.board = Array(6).fill().map(() => Array(9).fill(0));
 		this.player1 = "";
 		this.player2 = "";
+		this.numGamesFinished = 0;
+		this.p1Wins = 0;
 	}
 
 	getBoard() { return this.board; }
@@ -114,12 +116,16 @@ io.on('connection', (socket) => {
 				player: games[index].getCurrentPlayer()
 			});
 		}
+
+		if(games[index].gameOver){ // If game over, broadcast wins to everyone in the room	
+			io.in(data.gameID).emit('updateWins', { gamesFinished: games[index].numGamesFinished, player1wins: games[index].p1Wins });
+		}
 	});
-/*
-	socket.on('gameOver', (data) => {
-		socket.broadcast.to(data.gameID).emit('gameEnd', data);
-	});
-*/
+	/*
+		socket.on('gameOver', (data) => {
+			socket.broadcast.to(data.gameID).emit('gameEnd', data);
+		});
+	*/
 	socket.on('resetGame', (data) => {
 		console.log('\x1b[31m*** ' + data.gameID.toUpperCase() + ' RESET ***\x1b[0m');
 		console.log('Game: ' + data.gameID + ' Reset by: ' + data.player);
@@ -236,6 +242,8 @@ function checkWin(player, index) {
 	if (win) {
 		games[index].setGameOver(true);
 		highlightWinner(player, board);
+		games[index].numGamesFinished++; // Games completed used to calculate head to head wins
+		if (player === PLAYER_1) games[index].p1Wins++; // console.log('Win: ' + games[index].p1Wins)
 	}
 }
 
