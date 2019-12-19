@@ -36,6 +36,10 @@ class Game {
 	}
 
 	init(movesFirst) {
+		if (movesFirst === 0) {
+			this.played = 0; // number of games played
+			this.p1Wins = 0; // Number of games won by player 1
+		}
 		this.finished = false; // The game is not over
 		this.currentPlayer = movesFirst;
 		this.board = Array(ROWS).fill().map(() => Array(COLS).fill(0)); // Set/Reset the board
@@ -157,14 +161,18 @@ socket.on('shutdownMsg', (data) => {
 	var currentTime = 0;
 	var waitInterval = 1000;
 
-	game.addMessage({ message: 'Player: ' + data.player + ' has abandoned us!!! Restarting in ' + (waitTime - currentTime) / 1000 + ' seconds', colour: 'red' });
+	game.addMessage({ message: 'Player ' + data.playerID + ': ' + data.player + ' has abandoned us!!! Restarting in ' + (waitTime - currentTime) / 1000 + ' seconds', colour: 'red' });
 
 	var interval = setInterval(function () {
 		currentTime += waitInterval;
-		game.addMessage({ message: 'Player: ' + data.player + ' has abandoned us!!! Restarting in ' + (waitTime - currentTime) / 1000 + ' seconds', colour: 'red' });
+		game.addMessage({ message: 'Player ' + data.playerID + ': ' + data.player + ' has abandoned us!!! Restarting in ' + (waitTime - currentTime) / 1000 + ' seconds', colour: 'red' });
 
 		if (currentTime >= waitTime) {
-			leaveGameButton();
+			if (data.playerID === PLAYER_1) {
+				leaveGameButton(); // Quit the game if Player 1 (host) leaves
+			} else {
+				game.init(0); // Restart game waiting for player 2 (challenger) to connect
+			}
 		}
 	}, waitInterval);
 
@@ -246,7 +254,7 @@ function username2Button() {
 }
 
 function leaveGameButton() {
-	socket.emit('leaveGame', { player: player.name, gameID: game.gameID });
+	socket.emit('leaveGame', { player: player.name, playerID: player.type, gameID: game.gameID });
 	location.reload(true);
 }
 

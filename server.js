@@ -14,8 +14,7 @@ var io = require('socket.io').listen(server);
 
 app.use(express.static('static'));
 
-const CONNECT = 5, ROWS = 6, COLS = 9;
-const PLAYER_1 = 1, PLAYER_2 = 2;
+const CONNECT = 5, ROWS = 6, COLS = 9, PLAYER_1 = 1, PLAYER_2 = 2;
 
 var gamesPlayed = 0;
 var games = [];									// Array of games
@@ -29,8 +28,13 @@ class Game {
 		this.board = Array(6).fill().map(() => Array(9).fill(0));
 		this.player1 = "";
 		this.player2 = "";
-		this.numGamesFinished = 0;
-		this.p1Wins = 0;
+		// this.activePlayers = 1; // Start with Player 1
+		this.init();
+	}
+
+	init() {
+		this.numGamesFinished = 0; // Completed games
+		this.p1Wins = 0; // Use player 1 wins to calculate player 2 wins (subtract from num. games played)
 	}
 
 	getBoard() { return this.board; }
@@ -71,19 +75,19 @@ io.on('connection', (socket) => {
 
 	socket.on('player2join', function (data) {
 		var game = io.nsps['/'].adapter.rooms[data.gameID];
-		//console.log('player2join gameID ' + data.gameID + " username " + data.username);
+		var index = parseInt(data.gameID.split('-')[1]);
 
 		if (game && game.length === 1) {
-			console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID);
+			console.log("player2join: Player 2: " + data.username + " has joined " + data.gameID + " game length: " + game.length);
 			socket.join(data.gameID);
 
-			games[parseInt(data.gameID.split('-')[1])].setPlayer2Name(data.username);					// Set Player 2 username
-			games[parseInt(data.gameID.split('-')[1])].setCurrentPlayer(PLAYER_1);						// Set the first turn to player 1
+			games[index].setPlayer2Name(data.username);													// Set Player 2 username
+			games[index].setCurrentPlayer(PLAYER_1);													// Set the first turn to player 1
 
-			//socket.broadcast.to(data.gameID).emit('player1', {});
 			socket.broadcast.to(data.gameID).emit('player1', { usernameP2: data.username });			// init player 1
-			//socket.emit('player2', { username: data.username, gameID: data.gameID });					// player 2 username
-			socket.emit('player2', { username: data.username, usernameP1: games[parseInt(data.gameID.split('-')[1])].getPlayer1Name(), gameID: data.gameID });	// SEND: player 2 username, player 1 username, gameID
+			socket.emit('player2', { username: data.username, usernameP1: games[index].getPlayer1Name(), gameID: data.gameID });	// SEND: player 2 username, player 1 username, gameID
+			
+			console.log("Game length: " + game.length);
 		} else {
 			socket.emit('err', { message: 'This game is already full' });
 		}
@@ -117,7 +121,7 @@ io.on('connection', (socket) => {
 			});
 		}
 
-		if(games[index].gameOver){ // If game over, broadcast wins to everyone in the room	
+		if (games[index].gameOver) { // If game over, broadcast wins to everyone in the room	
 			io.in(data.gameID).emit('updateWins', { gamesFinished: games[index].numGamesFinished, player1wins: games[index].p1Wins });
 		}
 	});
@@ -134,12 +138,20 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('leaveGame', (data) => {
-		console.log('Player : ' + data.player + ' has left Game: ' + data.gameID);
+		var index = parseInt(data.gameID.split('-')[1]);
+		console.log('Player ' + data.playerID + ': ' + data.player + ' has left Game: ' + data.gameID);		
 		socket.broadcast.to(data.gameID).emit('shutdownMsg', data);
+		games[index].resetGame(PLAYER_1); // Start again with player 1 having first move
+		games[index].init();
+
+		var game = io.nsps['/'].adapter.rooms[data.gameID];
+		console.log("Game length: "+game.length); // Show number of players in the room
+		game.numGamesFinished = 0; // Reset completed games
+		game.p1Wins = 0; // Reset player 1 wins
 	});
 
 	socket.on('disconnect', function () {
-		console.log('Player  has disconnected');
+		console.log('A player has been disconnected');
 	});
 
 	socket.on('message', (data) => {
@@ -157,7 +169,7 @@ displayBoard(Array(6).fill().map(() => Array(9).fill(0)), "");										// Show 
 function checkCol(col, index, gameID) {
 	var cb = games[index].getBoard();		// get the board
 	console.log('game-' + index);
-	console.log('Check Column ' + (col + 1) + ' For Player ' + games[index].getCurrentPlayer());			// show column number as displayed in console
+	console.log('Check Column ' + (col + 1) + ' For Player ' + games[index].getCurrentPlayer());	// show column number as displayed in console
 
 	if (cb[0][col] != 0) {
 		console.log('\x1b[31mError:\x1b[0m Column %s is full!', col);
@@ -192,7 +204,6 @@ function checkWin(player, index) {
 			if (board[row][col] == player && board[row + 1][col - 1] == player && board[row + 2][col - 2] == player
 				&& board[row + 3][col - 3] == player && board[row + 4][col - 4] == player) {
 				win = true;
-				//games[index].set5InARow(new Array(row,col,row+1,col-1,row+2,col-2,row+3,col-3,row+4,col-4)); // Highlight winning move
 				games[index].set5InARow([row, col, row + 1, col - 1, row + 2, col - 2, row + 3, col - 3, row + 4, col - 4]); // Highlight winning move
 				break;
 			}
