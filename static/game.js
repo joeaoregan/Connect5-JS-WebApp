@@ -99,7 +99,7 @@ class Game {
 			document.getElementById("username").innerText = (player.type == PLAYER_1) ? ("Player 1: " + player.name + " Vs Player 2: " + player.opponent) : ("Player 2: " + player.name + " Vs Player 1: " + player.opponent);
 		}
 
-		document.getElementById("displayMessage").innerText = "Welcome " + player.name + ". Your Are Player " + player.type + ((!this.currentPlayer == PLAYER_1) ? ". Player 2 must enter Game ID: \"" + data.gameID + "\" to join" : "");
+		document.getElementById("displayMessage").innerText = "Welcome " + player.name + ". You Are Player " + player.type + ((!this.currentPlayer == PLAYER_1) ? ". Player 2 must enter Game ID: \"" + data.gameID + "\" to join" : "");
 	}
 
 	addMessage(data) {
