@@ -6,25 +6,36 @@
 ## Connect 5
 
 ![Connect 5](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png "Connect 5")
+
+**Connect 5**
+
+---
+
 ![Connect 5: Tooltip](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png "Connect 5: Tooltip")
+
+**Tooltip**
+
+---
 
 * Single device and multiplayer / multiple device communication working (See Heroku link).
 * Different games can take place at the same time.
 * Opponent move is highlighted
 * Added chat feature
 * Added tooltip to indicate when messages were sent/received
-
+---
 ##### Other Versions
 
 * [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
 * [Connect 5 AWT GUI](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui)
 * [Connect 5 Python Console](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console)
 * [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
-
+---
 ##### Play the game:
 * [Heroku Multiplayer (WORKING)](https://connect5-jor.herokuapp.com/)
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
 * [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
+
+---
 
 ### Instructions
 
@@ -38,6 +49,8 @@
 * If Player 1 (Host) leaves a room the game returns to start screen for both players
 * If Player 2 (Challenger) leaves room, game resets and another player can be invited
 * Press reset to reset the game at any time, or restart when game has been won
+
+---
 
 ##### Install
 
@@ -58,6 +71,7 @@ npm start
 ```
 5. navigate to [http://localhost:3000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
+---
 
 ### Links / References
 
