@@ -1,38 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Connect 5</title>
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/chat-style.css">
-		<link rel="shortcut icon" href="favicon.ico">
-	</head>
+<html lang="en-IE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Joe O'Regan" />
+    <meta name="description" content="Connect 5 JavaScript Game" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Connect 5 - by Joe O'Regan" />
+    <meta
+      property="og:description"
+      content="Connect 5. JavaScript game, originally created as a coding assignment as part of application for Associate Software Developer Job at Genesys, Galway."
+    />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/static/images/thumbnail-1200x627-connect5.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+    <meta
+      name="twitter:description"
+      content="Connect 5. JavaScript game, originally created as a coding assignment as part of application for Associate Software Developer Job at Genesys, Galway."
+    />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/static/images/thumbnail-1200x627-connect5.jpg"
+    />
 
-	<body>
-	<div class="title body-section">
-		<h1>Connect 5</h1>
-		<h2>by Joe O'Regan</h2>
-	</div>
-	
-	<div class="main">
-		<div class="selectGame" id="selectGame">		
-			<div class="body-section">
-				<h2>Create A New Game</h2>
-				
-				<p><b>Player 1:</b> Enter Username and select "Create Game" or press "Enter"</p>
-				<p><b>Player 2:</b> Enter Username and Game ID from Player 1. Then Select "Join Game" or press "Enter"</p>
-				
-				<input type="text" id="username1" placeholder="Username" required autofocus>
-				<button class="button" id="newGameBtn">Create Game</button>				
-			</div>
-	
-			<div class="body-section">
-				<h2>Join an existing game</h2>
+    <title>Connect 5</title>
 
-				<input type="text" id="username2" placeholder="Username" required>
-				<input type="text" id="gameID" placeholder="Game To Join" required>
-			
-				<!--div class="dropdown">
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/chat-style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+  </head>
+
+  <body>
+    <div class="title body-section">
+      <h1>Connect 5</h1>
+      <h2>by Joe O'Regan</h2>
+    </div>
+
+    <div class="main">
+      <div class="selectGame" id="selectGame">
+        <div class="body-section">
+          <h2>Create A New Game</h2>
+
+          <p>
+            <b>Player 1:</b> Enter Username and select "Create Game" or press
+            "Enter"
+          </p>
+          <p>
+            <b>Player 2:</b> Enter Username and Game ID from Player 1. Then
+            Select "Join Game" or press "Enter"
+          </p>
+
+          <input
+            type="text"
+            id="username1"
+            placeholder="Username"
+            required
+            autofocus
+          />
+          <button class="button" id="newGameBtn">Create Game</button>
+        </div>
+
+        <div class="body-section">
+          <h2>Join an existing game</h2>
+
+          <input type="text" id="username2" placeholder="Username" required />
+          <input type="text" id="gameID" placeholder="Game To Join" required />
+
+          <!--div class="dropdown">
 				<button class="dropbtn">Select Game</button>
 				<div class="dropdown-content">
 				<button id="existingBtn1">Game-1</button>
@@ -41,172 +80,314 @@
 				<a href="#">Link 1</a>
 				<a href="#">Link 2</a>
 				<a href="#">Link 3</a-->
-				<!--/div>
+          <!--/div>
 				</div-->
-				
-				<!--label for="country">Country</label>
+
+          <!--label for="country">Country</label>
 				<select id="country" name="country">
 				<option value="australia">Australia</option>
 				<option value="canada">Canada</option>
 				<option value="usa">USA</option>
 				</select-->
-			
-				<button class="button" id="existingBtn">Join Game</button>
-			</div>
-		</div>
-				
-		<div class="gameBoard" id="gameBoard">
-			<br>
-			<h1 id="show-gameid"></h1>
-			<h2 id="username"></h2>
 
-			<p id="displayMessage"></p>
-			<!-- Display the number of games won -->
-			<h2>Head-To-Head</h2>
-			<p id="winsID"></p>
-			
-			<table class="frame" id="frame2">
-				<tr>
-				<td id="column-0" class="column" title="Column 1">
-					<table>
-						<tr><td class="col0" id="0"></td></tr>
-						<tr><td class="col0" id="1"></td></tr>
-						<tr><td class="col0" id="2"></td></tr>
-						<tr><td class="col0" id="3"></td></tr>
-						<tr><td class="col0" id="4"></td></tr>
-						<tr><td class="col0" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-1" class="column" title="Column 2">
-					<table>
-						<tr><td class="col1" id="0"></td></tr>
-						<tr><td class="col1" id="1"></td></tr>
-						<tr><td class="col1" id="2"></td></tr>
-						<tr><td class="col1" id="3"></td></tr>
-						<tr><td class="col1" id="4"></td></tr>
-						<tr><td class="col1" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-2" class="column" title="Column 3">
-					<table>
-						<tr><td class="col2" id="0"></td></tr>
-						<tr><td class="col2" id="1"></td></tr>
-						<tr><td class="col2" id="2"></td></tr>
-						<tr><td class="col2" id="3"></td></tr>
-						<tr><td class="col2" id="4"></td></tr>
-						<tr><td class="col2" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-3" class="column" title="Column 4">
-					<table>
-						<tr><td class="col3" id="0"></td></tr>
-						<tr><td class="col3" id="1"></td></tr>
-						<tr><td class="col3" id="2"></td></tr>
-						<tr><td class="col3" id="3"></td></tr>
-						<tr><td class="col3" id="4"></td></tr>
-						<tr><td class="col3" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-4" class="column" title="Column 5">
-					<table>
-						<tr><td class="col4" id="0"></td></tr>
-						<tr><td class="col4" id="1"></td></tr>
-						<tr><td class="col4" id="2"></td></tr>
-						<tr><td class="col4" id="3"></td></tr>
-						<tr><td class="col4" id="4"></td></tr>
-						<tr><td class="col4" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-5" class="column" title="Column 6">
-					<table>
-						<tr><td class="col5" id="0"></td></tr>
-						<tr><td class="col5" id="1"></td></tr>
-						<tr><td class="col5" id="2"></td></tr>
-						<tr><td class="col5" id="3"></td></tr>
-						<tr><td class="col5" id="4"></td></tr>
-						<tr><td class="col5" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-6" class="column" title="Column 7">
-					<table>
-						<tr><td class="col6" id="0"></td></tr>
-						<tr><td class="col6" id="1"></td></tr>
-						<tr><td class="col6" id="2"></td></tr>
-						<tr><td class="col6" id="3"></td></tr>
-						<tr><td class="col6" id="4"></td></tr>
-						<tr><td class="col6" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-7" class="column" title="Column 8">
-					<table>
-						<tr><td class="col7" id="0"></td></tr>
-						<tr><td class="col7" id="1"></td></tr>
-						<tr><td class="col7" id="2"></td></tr>
-						<tr><td class="col7" id="3"></td></tr>
-						<tr><td class="col7" id="4"></td></tr>
-						<tr><td class="col7" id="5"></td></tr>
-					</table>
-				</td>
-				<td id="column-8" class="column" title="Column 9">
-					<table>
-						<tr><td class="col8" id="0"></td></tr>
-						<tr><td class="col8" id="1"></td></tr>
-						<tr><td class="col8" id="2"></td></tr>
-						<tr><td class="col8" id="3"></td></tr>
-						<tr><td class="col8" id="4"></td></tr>
-						<tr><td class="col8" id="5"></td></tr>
-					</table>
-				</td>
-				</tr>
-			</table>			
-			<br>			
-			
-			<div><h2 id="player_info"></h2></div>
-			
-			<button onClick="resetGameButton()" class="button">Reset Game</button>
-			<button onClick="leaveGameButton()" class="button">Leave Game</button>
-			<br><br>
-		</div>
-		<br> 
-	</div>
-	
-	<div class="hidechat" id="hidechat">		
-		<div class="chatdiv" id="chatdiv">			
-			<div class="msgdiv" id = "msgList"></div>
-			
-			<div class="input-control">
-				<input type="text" id="messagetext" placeholder="Write here..." class="inputTxt"/>
-				<button id="inputBtn" class="button inputBtn">Send</button>
-			</div>
-		</div>
-	</div>
-	
-	<div class="footer">			
-		<h2>Links</h2>
-		
-		<table class="linkTbl">
-			<tr><th>Play Online</th><th>GitHub</th></tr>
-			<tr>
-				<td>
-					<a href="https://connect5-jor.herokuapp.com/" target="_blank">Connect 5 Heroku</a><br>
-					<a href="https://chat-jor.herokuapp.com/" target="_blank">Chat Example App</a><br>
-					<a href="https://antibody-js.herokuapp.com/" target="_blank">Antibody JS</a><br>
-					<a href="https://jimgames.herokuapp.com/" target="_blank">College Game Website Project</a>
-				</td>
-				<td>
-					<a href="https://github.com/joeaoregan/Connect5-JS" target="_blank">JavaScript (This App)</a><br>
-					<a href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text" target="_blank">Java Console</a><br>
-					<a href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui" target="_blank">Java GUI</a><br>
-					<a href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console" target="_blank">Python Console</a><br>
-					<a href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI" target="_blank">Python GUI</a>
-				</td>
-			</tr>
-		</table>
-		<br>
-	</div>	
-	
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="game.js"></script>
-	<script src="chat.js"></script>
-</body>
+          <button class="button" id="existingBtn">Join Game</button>
+        </div>
+      </div>
+
+      <div class="gameBoard" id="gameBoard">
+        <br />
+        <h1 id="show-gameid"></h1>
+        <h2 id="username"></h2>
+
+        <p id="displayMessage"></p>
+        <!-- Display the number of games won -->
+        <h2>Head-To-Head</h2>
+        <p id="winsID"></p>
+
+        <table class="frame" id="frame2">
+          <tr>
+            <td id="column-0" class="column" title="Column 1">
+              <table>
+                <tr>
+                  <td class="col0" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col0" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col0" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col0" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col0" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col0" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-1" class="column" title="Column 2">
+              <table>
+                <tr>
+                  <td class="col1" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col1" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col1" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col1" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col1" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col1" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-2" class="column" title="Column 3">
+              <table>
+                <tr>
+                  <td class="col2" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col2" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col2" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col2" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col2" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col2" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-3" class="column" title="Column 4">
+              <table>
+                <tr>
+                  <td class="col3" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col3" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col3" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col3" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col3" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col3" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-4" class="column" title="Column 5">
+              <table>
+                <tr>
+                  <td class="col4" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col4" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col4" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col4" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col4" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col4" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-5" class="column" title="Column 6">
+              <table>
+                <tr>
+                  <td class="col5" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col5" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col5" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col5" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col5" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col5" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-6" class="column" title="Column 7">
+              <table>
+                <tr>
+                  <td class="col6" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col6" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col6" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col6" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col6" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col6" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-7" class="column" title="Column 8">
+              <table>
+                <tr>
+                  <td class="col7" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col7" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col7" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col7" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col7" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col7" id="5"></td>
+                </tr>
+              </table>
+            </td>
+            <td id="column-8" class="column" title="Column 9">
+              <table>
+                <tr>
+                  <td class="col8" id="0"></td>
+                </tr>
+                <tr>
+                  <td class="col8" id="1"></td>
+                </tr>
+                <tr>
+                  <td class="col8" id="2"></td>
+                </tr>
+                <tr>
+                  <td class="col8" id="3"></td>
+                </tr>
+                <tr>
+                  <td class="col8" id="4"></td>
+                </tr>
+                <tr>
+                  <td class="col8" id="5"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <br />
+
+        <div><h2 id="player_info"></h2></div>
+
+        <button onClick="resetGameButton()" class="button">Reset Game</button>
+        <button onClick="leaveGameButton()" class="button">Leave Game</button>
+        <br /><br />
+      </div>
+      <br />
+    </div>
+
+    <div class="hidechat" id="hidechat">
+      <div class="chatdiv" id="chatdiv">
+        <div class="msgdiv" id="msgList"></div>
+
+        <div class="input-control">
+          <input
+            type="text"
+            id="messagetext"
+            placeholder="Write here..."
+            class="inputTxt"
+          />
+          <button id="inputBtn" class="button inputBtn">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <h2>Links</h2>
+
+      <table class="linkTbl">
+        <tr>
+          <th>Play Online</th>
+          <th>GitHub</th>
+        </tr>
+        <tr>
+          <td>
+            <a href="https://connect5-jor.herokuapp.com/" target="_blank"
+              >Connect 5 Heroku</a
+            ><br />
+            <a href="https://chat-jor.herokuapp.com/" target="_blank"
+              >Chat Example App</a
+            ><br />
+            <a href="https://antibody-js.herokuapp.com/" target="_blank"
+              >Antibody JS</a
+            ><br />
+            <a href="https://jimgames.herokuapp.com/" target="_blank"
+              >College Game Website Project</a
+            >
+          </td>
+          <td>
+            <a href="https://github.com/joeaoregan/Connect5-JS" target="_blank"
+              >JavaScript (This App)</a
+            ><br />
+            <a
+              href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text"
+              target="_blank"
+              >Java Console</a
+            ><br />
+            <a
+              href="https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui"
+              target="_blank"
+              >Java GUI</a
+            ><br />
+            <a
+              href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console"
+              target="_blank"
+              >Python Console</a
+            ><br />
+            <a
+              href="https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI"
+              target="_blank"
+              >Python GUI</a
+            >
+          </td>
+        </tr>
+      </table>
+      <br />
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+    <script src="chat.js"></script>
+  </body>
 </html>
