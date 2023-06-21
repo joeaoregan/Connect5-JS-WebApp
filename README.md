@@ -1,7 +1,7 @@
 # Connect 5
 ## Joe O'Regan
 
-5 in a row game using JavaScript and Node.js. [Play Now.](https://connect5-jor.herokuapp.com/)
+5 in a row game using JavaScript and Node.js. [Play Now.](https://jor-connect5.onrender.com/)
 
 ## Connect 5
 
