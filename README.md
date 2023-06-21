@@ -31,7 +31,8 @@
 * [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
 ---
 ##### Play the game:
-* [Heroku Multiplayer (WORKING)](https://connect5-jor.herokuapp.com/)
+* [Render Multiplayer (Working)](https://jor-connect5.onrender.com/)
+* [Heroku Multiplayer (NOT Working)](https://connect5-jor.herokuapp.com/)
 * [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
 * [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
 
