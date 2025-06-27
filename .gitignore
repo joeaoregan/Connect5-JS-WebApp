@@ -21,5 +21,8 @@ web.config
 !.gitignore
 !README.md
 !package.json
-!package-lock.json
+
+# render.com yarn warning
+
+package-lock.json
 

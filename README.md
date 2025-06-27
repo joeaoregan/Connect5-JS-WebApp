@@ -1,7 +1,10 @@
 # Connect 5
+
 ## Joe O'Regan
 
-5 in a row game using JavaScript and Node.js. [Play Now.](https://jor-connect5.onrender.com/)
+5 in a row game using JavaScript and Node.js.
+
+[Play App on Render.com](https://jor-connect5.onrender.com/)
 
 ## Connect 5
 
@@ -17,24 +20,29 @@
 
 ---
 
-* Single device and multiplayer / multiple device communication working (See Heroku link).
-* Different games can take place at the same time.
-* Opponent move is highlighted
-* Added chat feature
-* Added tooltip to indicate when messages were sent/received
+- Single device and multiplayer / multiple device communication working (See Heroku link).
+- Different games can take place at the same time.
+- Opponent move is highlighted
+- Added chat feature
+- Added tooltip to indicate when messages were sent/received
+
 ---
+
 ##### Other Versions
 
-* [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
-* [Connect 5 AWT GUI](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui)
-* [Connect 5 Python Console](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console)
-* [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
+- [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
+- [Connect 5 AWT GUI](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui)
+- [Connect 5 Python Console](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console)
+- [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
+
 ---
+
 ##### Play the game:
-* [Render Multiplayer (Working)](https://jor-connect5.onrender.com/)
-* [Heroku Multiplayer (NOT Working)](https://connect5-jor.herokuapp.com/)
-* [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
-* [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
+
+- [Render Multiplayer (Working)](https://jor-connect5.onrender.com/)
+- [Heroku Multiplayer (NOT Working)](https://connect5-jor.herokuapp.com/)
+- [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
+- [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
 
 ---
 
@@ -42,14 +50,14 @@
 
 ##### Play
 
-* Player 1 creates a game and is assigned a Game ID
-* Player 2 enters game ID from Player 1 to join game
-* Player 1 goes first
-* Winning 5-in-a-row is highlighted when game is won
-* Head-to-head scores are kept
-* If Player 1 (Host) leaves a room the game returns to start screen for both players
-* If Player 2 (Challenger) leaves room, game resets and another player can be invited
-* Press reset to reset the game at any time, or restart when game has been won
+- Player 1 creates a game and is assigned a Game ID
+- Player 2 enters game ID from Player 1 to join game
+- Player 1 goes first
+- Winning 5-in-a-row is highlighted when game is won
+- Head-to-head scores are kept
+- If Player 1 (Host) leaves a room the game returns to start screen for both players
+- If Player 2 (Challenger) leaves room, game resets and another player can be invited
+- Press reset to reset the game at any time, or restart when game has been won
 
 ---
 
@@ -58,24 +66,29 @@
 1. Download and unzip project
 2. [Install Node.js](https://nodejs.org/en/)
 3. Initialise NPM (from root directory type the following commands in command prompt)
+
 ```
 npm init
 npm install --save express socket.io
 ```
+
 4. Run the server
+
 ```
 node server.js
 ```
+
 ###### OR
+
 ```
 npm start
 ```
+
 5. navigate to [http://localhost:3000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
 ---
 
 ### Links / References
-
 
 #### Turn-based game tutorials
 
