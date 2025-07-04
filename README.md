@@ -4,7 +4,7 @@
 
 5 in a row game using JavaScript and Node.js.
 
-[Play App on Render.com](https://jor-connect5.onrender.com/)
+[Play App on Render.com](https://jor-connect5.onrender.com/ "Go to Connect 5 on Render")
 
 ## Connect 5
 
@@ -28,25 +28,33 @@
 
 ---
 
-##### Other Versions
+<details closed>
+<summary>
+<h3>Other Versions</h3>
+</summary>
 
 - [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
 - [Connect 5 AWT GUI](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/gui)
 - [Connect 5 Python Console](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-Console)
 - [Connect 5 Python PyGame](https://github.com/joeaoregan/Python-GamesAndTutorials/tree/master/Connect5-GUI)
 
----
+</details>
 
-##### Play the game:
+<details closed>
+<summary>
+<h3>Play the game</h3>
+</summary>
 
 - [Render Multiplayer (Working)](https://jor-connect5.onrender.com/)
 - [Heroku Multiplayer (NOT Working)](https://connect5-jor.herokuapp.com/)
 - [Azure Single Player](http://test2-k00203642.azurewebsites.net/)
 - [Azure Multiplayer Link (Need fix socket.io issue)](http://connect5-jor.azurewebsites.net/)
+</details>
 
----
-
-### Instructions
+<details closed>
+<summary>
+<h3>Instructions</h3>
+</summary>
 
 ##### Play
 
@@ -58,10 +66,12 @@
 - If Player 1 (Host) leaves a room the game returns to start screen for both players
 - If Player 2 (Challenger) leaves room, game resets and another player can be invited
 - Press reset to reset the game at any time, or restart when game has been won
+</details>
 
----
-
-##### Install
+<details closed>
+<summary>
+<h3>Install</h3>
+</summary>
 
 1. Download and unzip project
 2. [Install Node.js](https://nodejs.org/en/)
@@ -87,6 +97,8 @@ npm start
 5. navigate to [http://localhost:3000](http://localhost:1337) (Server will run on localhost '127.0.0.1' port: 1337)
 
 ---
+
+</details>
 
 ### Links / References
 
