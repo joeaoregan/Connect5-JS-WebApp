@@ -6,17 +6,26 @@
 
 [Play App on Render.com](https://jor-connect5.onrender.com/ "Go to Connect 5 on Render")
 
-## Connect 5
+## Screenshots
+
+<details closed>
+<summary>
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png" title="Connect 5" height="100"/>
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png" title="Tooltip" height="100"/>
+<p>Click here for larger images, or individual thumbnails to go to raw images.</p>
+</summary>
 
 ![Connect 5](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png "Connect 5")
 
-**Connect 5**
+###### Connect 5
 
 ---
 
 ![Connect 5: Tooltip](https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png "Connect 5: Tooltip")
 
-**Tooltip**
+###### Tooltip
+
+</details>
 
 ---
 
@@ -31,6 +40,7 @@
 <details closed>
 <summary>
 <h3>Other Versions</h3>
+<p>Click to expand</p>
 </summary>
 
 - [Connect 5 Java Console](https://github.com/joeaoregan/Java-AppsAndTutorials/tree/master/Connect5/src/jor/con5/text)
@@ -43,6 +53,7 @@
 <details closed>
 <summary>
 <h3>Play the game</h3>
+<p>Click to expand</p>
 </summary>
 
 - [Render Multiplayer (Working)](https://jor-connect5.onrender.com/)
@@ -54,6 +65,7 @@
 <details closed>
 <summary>
 <h3>Instructions</h3>
+<p>Click to expand</p>
 </summary>
 
 ##### Play
@@ -71,6 +83,7 @@
 <details closed>
 <summary>
 <h3>Install</h3>
+<p>Click to expand</p>
 </summary>
 
 1. Download and unzip project
