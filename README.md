@@ -10,8 +10,8 @@
 
 <details closed>
 <summary>
-<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png" title="Connect 5" height="100px"/>
-<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png" title="Tooltip" height="100px"/>
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png" title="Connect 5" height="50" />
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png" title="Tooltip" height="50" />
 <p>Click here for larger images, or individual thumbnails to go to raw images.</p>
 </summary>
 
@@ -113,7 +113,10 @@ npm start
 
 </details>
 
-### Links / References
+<details open>
+<summary>
+<h3>Links / References</h3>
+</summary>
 
 #### Turn-based game tutorials
 
@@ -129,3 +132,5 @@ Some links I found helpful:
 2. [NodeSchool](https://nodeschool.io/#workshoppers)
 3. [Node.js Download](https://nodejs.org/en/)
 4. [w3schools](https://www.w3schools.com/nodejs/)
+
+</details>
