@@ -10,8 +10,8 @@
 
 <details closed>
 <summary>
-<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png" title="Connect 5" height="100"/>
-<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png" title="Tooltip" height="100"/>
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot1.png" title="Connect 5" height="100px"/>
+<img src="https://raw.githubusercontent.com/joeaoregan/Connect5-JS/master/Screenshots/screenshot2tooltip.png" title="Tooltip" height="100px"/>
 <p>Click here for larger images, or individual thumbnails to go to raw images.</p>
 </summary>
 
